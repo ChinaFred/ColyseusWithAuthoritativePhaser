@@ -1,6 +1,8 @@
-import app.app as terminator
-import brain.ride
+import robot.server as server
+import brain.ride as brain
+import robot.config as config
 
 if __name__ == "__main__":
- #   terminator.startServer()
-    ride()
+    server.start()
+    config.display()
+
