@@ -4,14 +4,54 @@
 
 {% block main %}
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h1>Home</h1>
-      Terminator is alive
-    </div>
-  </div>
-</div>
+            <div class="col-sm-6 col-lg-3">
+
+            </div>
+            <!--/.col-->
+
+            <div class="col-sm-6 col-lg-3" id="camera">
+                {% include 'common/templates/cards/camera_card.html' %}
+            </div>
+            <!--/.col-->
+
+            <div class="col-sm-6 col-lg-3">
+
+            </div>
 
 {% endblock %}
+
+{% block picture%}{% endblock %}
+
+{% block pageScript %}
+
+{% endblock %}
+ <!--
+ includes utilisés pour le dashboard de démonstration de sufee
+
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/widgets.js') }}"></script>
+     <script src="{{ url_for('static', filename='vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+<script>
+        (function($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);
+    </script>
+    -->
 

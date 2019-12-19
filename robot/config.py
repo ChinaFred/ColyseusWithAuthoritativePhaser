@@ -1,3 +1,6 @@
+import os
+import datetime
+
 current = None
 
 
@@ -5,9 +8,18 @@ class Config:
     def __init__(self, botName):
         self.botName = botName
         self.app = None
+        self.lastPicture = "/static/img/admin.png"
+        self.lastPictureDateTime = ""
+        self.readPicturePath = "/static/img/cam/"
+        self.writePicturePath = "./robot/webServer/Static/img/cam/"
 
     def set_app(self, a):
         self.app = a
+
+    def set_lastPicture(self, filename):
+        self.lastPicture = self.readPicturePath+filename
+        self.lastPictureDateTime = datetime.datetime.fromtimestamp(os.path.getmtime(self.writePicturePath+filename))
+
 
 
 def init():

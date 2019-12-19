@@ -4,6 +4,7 @@ from robot import config
 
 app = config.current.app
 
+
 @app.route("/simple")
 def index_simple():
     return render_template("public/index_simple.html")
@@ -11,7 +12,6 @@ def index_simple():
 
 @app.route("/")
 def index():
-    #return render_template("public/index.html")
     return render_template("public/index.html", config=config.current)
 
 
