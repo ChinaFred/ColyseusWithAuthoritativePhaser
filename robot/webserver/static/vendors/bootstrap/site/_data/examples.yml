@@ -28,7 +28,7 @@
   description: "Examples that focus on implementing uses of built-in components provided by Bootstrap."
   examples:
     - name: "Starter template"
-      description: "Nothing but the basics: compiled CSS and JavaScript."
+      description: "Nothing but the basics: compiled css and JavaScript."
     - name: Grid
       description: "Multiple examples of grid layouts with all four tiers, nesting, and more."
     - name: Jumbotron
