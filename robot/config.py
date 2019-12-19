@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 import datetime
 
 current = None
@@ -12,7 +13,7 @@ def isRunningOnWindows():
     else:
         ret = False
         print("this is Linux")
-    current.set_isRunningOnWindows(ret)
+    #current.set_isRunningOnWindows(ret)
     return ret
 
 
@@ -36,11 +37,6 @@ class Config:
         self.lastPicture = self.readPicturePath+filename
         self.lastPictureDateTime = datetime.datetime.fromtimestamp(os.path.getmtime(self.writePicturePath+filename))
 
-    def set_isRunningOnWindows(self, ret):
-        self.isRunningOnWindows = ret
-
-
-
 
 def init():
     global current
@@ -60,10 +56,13 @@ def display():
     print("--------------------------------Current config---------------------------------------")
     if current is None:
         print("No configuration defined")
-
     else:
         print("Name : {}".format(current.botName))
         print("app : {}".format(current.app))
+        print("lastPicture : {}".format(current.lastPicture))
+        print("lastPictureDateTime : {}".format(current.lastPictureDateTime))
+        print("readPicturePath : {}".format(current.readPicturePath))
+        print("isRunningOnWindows : {}".format(current.isRunningOnWindows))
     print("*************************************************************************************")
 
 
