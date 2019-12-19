@@ -7,9 +7,6 @@ app = config.current.app
 
 @app.route('/ajaxExample', methods=['GET'])
 def ajaxExample():
-    print("ajax call success")
-    print("Taking picture from camera")
-    picam.shoot_photo("monImage.png")
+    picam.shoot_photo("camera.jpeg")
     template = render_template("common/templates/cards/camera_card.html", config=config.current)
-    print(template)
     return template

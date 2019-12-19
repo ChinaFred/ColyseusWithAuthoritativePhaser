@@ -10,5 +10,6 @@ def shoot_photo(filename):
         camera.start_preview()
         # Camera warm-up time
         time.sleep(2)
+        filename = str(time.time())+filename
         camera.capture(config.current.writePicturePath + filename)
         config.current.set_lastPicture(filename)
