@@ -3,7 +3,7 @@ from flask import Flask
 from flask import render_template
 from robot import config
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/static")
 config.init()
 config.set_app(app)
 
