@@ -1,4 +1,4 @@
-import os
+import os, sys
 import datetime
 
 current = None
@@ -11,7 +11,8 @@ class Config:
         self.lastPicture = "/static/img/admin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
-        self.writePicturePath = os.getcwd() + "/terminator/robot/webserver/static/img/cam/"
+        self.writePicturePath = os.getcwd() + "/robot/webserver/static/img/cam/"
+        self.isRunningOnWindows = True
 
     def set_app(self, a):
         self.app = a
@@ -19,6 +20,19 @@ class Config:
     def set_lastPicture(self, filename):
         self.lastPicture = self.readPicturePath+filename
         self.lastPictureDateTime = datetime.datetime.fromtimestamp(os.path.getmtime(self.writePicturePath+filename))
+
+    def set_isRunningOnWindows(self, ret):
+        self.isRunningOnWindows = ret
+
+    def isRunningOnWindows(self):
+        if sys.platform.Find("linux"):
+            ret = True
+            print("this is windows")
+        else:
+            ret = False
+            print("this is Linux")
+        self.current.set_isRunningOnWindows(ret)
+        return ret
 
 
 def init():
