@@ -34,7 +34,7 @@ class Config:
         else:
             ret = False
             print("this is Linux")
-        self.current.set_isRunningOnWindows(ret)
+        current.set_isRunningOnWindows(ret)
         return ret
 
 
