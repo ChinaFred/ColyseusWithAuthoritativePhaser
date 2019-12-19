@@ -11,8 +11,11 @@ class Config:
         self.lastPicture = "/static/img/admin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
-        self.writePicturePath = os.getcwd() + "/robot/webserver/static/img/cam/"
-        self.isRunningOnWindows = True
+        self.isRunningOnWindows = self.isRunningOnWindows()
+        root = ""
+        if not self.isRunningOnWindows:
+            root = "/Terminator"
+        self.writePicturePath = os.getcwd() + root + "/robot/webserver/static/img/cam/"
 
     def set_app(self, a):
         self.app = a
