@@ -11,7 +11,7 @@ class Config:
         self.lastPicture = "/static/img/admin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
-        self.writePicturePath = "./robot/webServer/Static/img/cam/"
+        self.writePicturePath = "./robot/webserver/static/img/cam/"
 
     def set_app(self, a):
         self.app = a
