@@ -5,6 +5,7 @@ current = None
 
 
 def isRunningOnWindows():
+    global current
     if sys.platform.find("linux"):
         ret = True
         print("this is windows")
