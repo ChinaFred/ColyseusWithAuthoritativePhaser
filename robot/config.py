@@ -27,7 +27,7 @@ class Config:
         self.isRunningOnWindows = isRunningOnWindows()
         root = ""
         if not self.isRunningOnWindows:
-            root = "/Terminator"
+            root = "/terminator"
         self.writePicturePath = os.getcwd() + root + "/robot/webserver/static/img/cam/"
 
     def set_app(self, a):
