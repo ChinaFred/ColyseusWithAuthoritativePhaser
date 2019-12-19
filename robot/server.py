@@ -4,7 +4,7 @@ from robot import webserver
 
 def start():
     config.display()
-    config.current.app.run()
+    config.current.app.run(debug=True, port=80, host='0.0.0.0')
     print("---------------------------------server started--------------------------------------")
 
 
