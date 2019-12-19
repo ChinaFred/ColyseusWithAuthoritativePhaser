@@ -28,7 +28,7 @@ class Config:
         self.isRunningOnWindows = ret
 
     def isRunningOnWindows(self):
-        if sys.platform.Find("linux"):
+        if sys.platform.find("linux"):
             ret = True
             print("this is windows")
         else:
