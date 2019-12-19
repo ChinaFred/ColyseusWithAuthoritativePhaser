@@ -4,6 +4,17 @@ import datetime
 current = None
 
 
+def isRunningOnWindows():
+    if sys.platform.find("linux"):
+        ret = True
+        print("this is windows")
+    else:
+        ret = False
+        print("this is Linux")
+    current.set_isRunningOnWindows(ret)
+    return ret
+
+
 class Config:
     def __init__(self, botName):
         self.botName = botName
@@ -11,7 +22,7 @@ class Config:
         self.lastPicture = "/static/img/admin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
-        self.isRunningOnWindows = self.isRunningOnWindows()
+        self.isRunningOnWindows = isRunningOnWindows()
         root = ""
         if not self.isRunningOnWindows:
             root = "/Terminator"
@@ -27,15 +38,7 @@ class Config:
     def set_isRunningOnWindows(self, ret):
         self.isRunningOnWindows = ret
 
-    def isRunningOnWindows(self):
-        if sys.platform.find("linux"):
-            ret = True
-            print("this is windows")
-        else:
-            ret = False
-            print("this is Linux")
-        current.set_isRunningOnWindows(ret)
-        return ret
+
 
 
 def init():
