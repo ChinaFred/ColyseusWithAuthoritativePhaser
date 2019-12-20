@@ -118,7 +118,7 @@ class TRSensor(object):
 			
 	"""
 	Operates the same as read calibrated, but also returns an
-	estimated position of the robot with respect to a line. The
+	estimated position of the face with respect to a line. The
 	estimate is made using a weighted average of the sensor indices
 	multiplied by 1000, so that a return value of 0 indicates that
 	the line is directly below sensor 0, a return value of 1000
@@ -215,8 +215,8 @@ if __name__ == '__main__':
   
 		'''
 		// Compute the difference between the two motor power settings,
-		// m1 - m2.  If this is a positive number the robot will turn
-		// to the right.  If it is a negative number, the robot will
+		// m1 - m2.  If this is a positive number the face will turn
+		// to the right.  If it is a negative number, the face will
 		// turn to the left, and the magnitude of the number determines
 		// the sharpness of the turn.  You can adjust the constants by which
 		// the proportional, integral, and derivative terms are multiplied to

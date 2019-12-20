@@ -11,7 +11,8 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
 GPIO.setup(DR,GPIO.IN,GPIO.PUD_UP)
 GPIO.setup(DL,GPIO.IN,GPIO.PUD_UP)
-
+DR_status = GPIO.input(DR)
+		DL_status = GPIO.input(DL)
 try:
 	while True:
 		DR_status = GPIO.input(DR)

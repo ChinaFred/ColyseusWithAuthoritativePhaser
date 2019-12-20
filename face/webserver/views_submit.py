@@ -1,6 +1,5 @@
 from flask import redirect
-from robot import config
-
+import brain.config as config
 
 app = config.current.app
 

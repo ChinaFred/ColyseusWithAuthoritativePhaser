@@ -1,34 +1,26 @@
 import os
-import sys
+import tools.general as general
 import datetime
+
 
 current = None
 
 
-def isRunningOnWindows():
-    global current
-    if sys.platform.find("linux"):
-        ret = True
-        print("this is windows")
-    else:
-        ret = False
-        print("this is Linux")
-    #current.set_isRunningOnWindows(ret)
-    return ret
-
 
 class Config:
-    def __init__(self, botName):
-        self.botName = botName
+    def __init__(self, bot_name):
+        self.botName = bot_name
         self.app = None
         self.lastPicture = "/static/img/admin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
-        self.isRunningOnWindows = isRunningOnWindows()
+        self.isRunningOnWindows = general.isRunningOnWindows()
         root = ""
         if not self.isRunningOnWindows:
             root = "/terminator"
-        self.writePicturePath = os.getcwd() + root + "/robot/webserver/static/img/cam/"
+        self.writePicturePath = os.getcwd() + root + "/face/webserver/static/img/cam/"
+        self.hasPiCam = False
+        #will be initialized when loading module
 
     def set_app(self, a):
         self.app = a
@@ -41,19 +33,17 @@ class Config:
 def init():
     global current
     if current is None:
-        print("-------------------------------------------------------------------------------------")
         print("-------------------------------Initializating bot------------------------------------")
         current = Config("Terminator")
     else:
-        print("-------------------------------------------------------------------------------------")
         print("-------------------------------Already configured------------------------------------")
     return current
 
 
 def display():
     global current
-    print("*************************************************************************************")
     print("--------------------------------Current config---------------------------------------")
+    print("*************************************************************************************")
     if current is None:
         print("No configuration defined")
     else:
@@ -62,6 +52,7 @@ def display():
         print("lastPicture : {}".format(current.lastPicture))
         print("lastPictureDateTime : {}".format(current.lastPictureDateTime))
         print("readPicturePath : {}".format(current.readPicturePath))
+        print("self.writePicturePath : {}".format(current.writePicturePath))
         print("isRunningOnWindows : {}".format(current.isRunningOnWindows))
     print("*************************************************************************************")
 
@@ -71,6 +62,7 @@ def set_app(a):
     current.set_app(a)
 
 
+##################################################################
 
 
-
+init()

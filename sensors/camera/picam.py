@@ -1,20 +1,18 @@
 import time
-from robot import config
+import brain.config as config
 from tools import images
-global hasPicam
 try:
-    hasPicam = True
     import picamera
+    config.current.hasPiCam = True
 except:
-    hasPicam = False
-    print("pas de picam")
+    config.current.hasPiCam = False
 
 
 def shoot_photo(filename):
     filename = str(time.time()) + filename
     filepath = config.current.writePicturePath + filename
     try:
-        if not hasPicam:
+        if not config.current.hasPiCam:
             print("draw an hello world picture")
             images.draw_fake_image(filepath)
         else:

@@ -1,6 +1,6 @@
 
 from flask import render_template
-from robot import config
+import brain.config as config
 
 app = config.current.app
 
