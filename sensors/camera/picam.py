@@ -1,18 +1,22 @@
 import time
-import brain.config as config
+import face.server as s
 from tools import images
+import tools.general as general
+
+
+server = s.current
 try:
     import picamera
-    config.current.hasPiCam = True
+    server.hasPiCam = True
 except:
-    config.current.hasPiCam = False
+    server.hasPiCam = False
 
 
 def shoot_photo(filename):
     filename = str(time.time()) + filename
-    filepath = config.current.writePicturePath + filename
+    filepath = server.writePicturePath + filename
     try:
-        if not config.current.hasPiCam:
+        if not server.hasPiCam:
             print("draw an hello world picture")
             images.draw_fake_image(filepath)
         else:
@@ -23,9 +27,9 @@ def shoot_photo(filename):
                 # Camera warm-up time
                 time.sleep(2)
                 camera.capture(filepath)
-        config.current.set_lastPicture(filename)
+        server.set_last_picture(filename)
     except Exception as e:
-        print("error in shoot_photo")
-        print("filename : " + filename)
-        print("filePath : " + filepath)
-        print(str(e))
+        general.log("error in shoot_photo")
+        general.log("filename : " + filename)
+        general.log("filePath : " + filepath)
+        general.log(str(e))

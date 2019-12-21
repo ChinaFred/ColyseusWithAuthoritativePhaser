@@ -1,7 +1,9 @@
 from flask import redirect
-import brain.config as config
+import face.server as server
+import tools.general as general
 
-app = config.current.app
+
+app = server.current.app
 
 
 @app.route('/shoot_photo', methods=['POST'])
@@ -10,4 +12,6 @@ def shoot_photo():
     #test_action.test_draw_image("monImage.png")
     return redirect('/')
 
+
+general.log("-----------------------Submit  Views initialized------------------------------------")
 

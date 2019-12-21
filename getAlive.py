@@ -1,10 +1,10 @@
-print("-------------------------------------------------------------------------------------")
-print("-------------------------starting application server---------------------------------")
-import brain.config as config
 import face.server as server
+import threading
+import tools.general as general
 
+
+a = 0
 
 if __name__ == "__main__":
-    server.start()
-    config.display()
-
+    s = server.Server("Terminator")
+    s.start()

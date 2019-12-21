@@ -1,8 +1,8 @@
-
 from flask import render_template
-import brain.config as config
+import face.server as server
+import tools.general as general
 
-app = config.current.app
+app = server.current.app
 
 
 @app.route("/simple")
@@ -12,7 +12,8 @@ def index_simple():
 
 @app.route("/")
 def index():
-    return render_template("public/index.html", config=config.current)
+    general.log("Ouch")
+    return render_template("public/index.html", config=server.current)
 
 
 @app.route("/about")
@@ -20,4 +21,4 @@ def about():
     return "All about terminator"
 
 
-
+general.log("-------------------------------Views initialized------------------------------------")
