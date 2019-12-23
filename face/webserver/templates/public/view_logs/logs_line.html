@@ -1,0 +1,13 @@
+{% macro get_type(type) -%}{% if type|int() == 0 %}badge-primary{% endif %}{% if type|int() == 1 %}badge-info{% endif %}{% if type|int() == 2 %}badge-warning{% endif %}{% if type|int() == 3 %}badge-danger{% endif %}{%- endmacro %}
+{% macro get_label(type) -%}{% if type|int() == 0 %}Debug{% endif %}{% if type|int() == 1 %}Info{% endif %}{% if type|int() == 2 %}Warning{% endif %}{% if type|int() == 3 %}Error{% endif %}{%- endmacro %}
+     <div class="row consolemessage py-2 border"  name="cls-{{ get_label(it.type) }}">
+        <div class="col-3 col-sm-1">
+            <span class="badge badge-pill {{ get_type(it.type) }}">{{ get_label(it.type) }}</span>
+        </div>
+        <div class="col-3 col-sm-2 overflow-auto">
+            <small>{{it.datetime}}</small>
+        </div>
+        <div class="col-3 col-md-auto overflow-auto">
+            <small >{{it.message}}</small>
+        </div>
+    </div>

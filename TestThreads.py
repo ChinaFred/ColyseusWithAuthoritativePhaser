@@ -1,21 +1,19 @@
 import threading
 import time
-import tools.general as general
+import tools.console_message as general
+from face.webserver import broadcast_notifications
 
 
 def test(text):
     general.log("text")
     while True:
         general.log(text)
-        time.sleep(4)
+        time.sleep(20)
+        broadcast_notifications()
 
 
 def test_threads():
-    a = threading.Thread(name="Gypsy", target=test, args="t")
-    b = threading.Thread(name="dsqdsqdqs", daemon=True, target=test, args="p")
-    c = threading.Thread(name="Face", daemon=True, target=test, args="c")
+    c = threading.Thread(name="notifications", daemon=True, target=test, args="c")
     general.log(threading.active_count())
-    a.start()
-    b.start()
     c.start()
 

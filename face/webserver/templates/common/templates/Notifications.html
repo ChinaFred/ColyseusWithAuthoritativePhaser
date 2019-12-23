@@ -1,0 +1,63 @@
+                        <div class="dropdown for-notification" id="notifications">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">{{config.notifications_count}}</span>
+                            </button>
+
+                            <div class="dropdown-menu border" aria-labelledby="notification">
+                                <p class="red">You have {{config.notifications_count}} Notification(s)</p>
+                                {% for item in config.notifications %}
+                                    {% if item.type|int() == 0 %}
+                                        <a class="dropdown-item media bg-success " href="#">
+                                            <i class="fa fa-check"></i>
+                                            <p class="text-light">{{item.message}}.</p>
+                                            <span class="badge badge-danger float-right m-2" onclick="remove_notification({{loop.index -1}});">
+                                                 x
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                    {% if item.type|int() == 1 %}
+                                        <a class="dropdown-item media bg-warning " href="#">
+                                            <i class="fa fa-warning "></i>
+                                            <p>{{item.message}}.</p>
+                                            <span class="badge badge-danger float-right m-2" onclick="remove_notification({{loop.index -1}});">
+                                                 x
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                    {% if item.type|int() == 2 %}
+                                        <a class="dropdown-item media bg-danger" href="#">
+                                            <i class="fa fa-thumbs-o-down"></i>
+                                            <p class="text-light">{{item.message}}.</p>
+                                            <span class=" badge badge-warning  float-right m-2 " onclick="remove_notification({{loop.index -1}});">
+                                                x
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+
+                            <script type="text/javascript" charset="utf-8">
+
+
+
+
+                                function remove_notification(i)
+                                {
+                                    var obj = new Object();
+                                    obj.index = i;
+                                    var jsonString= JSON.stringify(obj);
+
+                                    jQuery.ajax(
+                                        {
+                                            url: "/remove_notification",
+                                            contentType: "application/json",
+                                            dataType: "json",
+                                            type: "POST",
+                                            data: jsonString
+                                        }
+                                    );
+                                }
+                            </script>
+                        </div>

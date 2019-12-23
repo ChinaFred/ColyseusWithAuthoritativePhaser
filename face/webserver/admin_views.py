@@ -1,6 +1,7 @@
 import face.server as server
+from face.server import log
 from flask import render_template
-import tools.general as general
+
 
 app = server.current.app
 
@@ -10,7 +11,7 @@ def admin_dashboard():
     return render_template("admin/dashboard.html")
 
 
-general.log("-------------------------Admin Views initialized------------------------------------")
+log("-------------------------Admin Views initialized------------------------------------")
 
 
 

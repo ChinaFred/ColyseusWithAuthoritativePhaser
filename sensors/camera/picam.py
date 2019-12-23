@@ -1,7 +1,7 @@
 import time
 import face.server as s
 from tools import images
-import tools.general as general
+import tools.console_message as general
 
 
 server = s.current
@@ -17,11 +17,11 @@ def shoot_photo(filename):
     filepath = server.writePicturePath + filename
     try:
         if not server.hasPiCam:
-            print("draw an hello world picture")
+            general.log("draw an hello world picture")
             images.draw_fake_image(filepath)
         else:
             with picamera.PiCamera() as camera:
-                print("take a picture")
+                general.log("camera is taking a picture")
                 camera.resolution = (640, 480)
                 camera.start_preview()
                 # Camera warm-up time

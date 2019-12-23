@@ -1,6 +1,4 @@
 import face.server as server
-import threading
-import tools.general as general
 
 
 a = 0

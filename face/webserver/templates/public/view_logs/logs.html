@@ -1,0 +1,96 @@
+{% extends "common/sufee_themed_template.html" %}
+
+{% block title %}{{config.botName}}{% endblock %}
+
+{% block main %}
+
+
+            <!--/.col-->
+            <div class="container-fluid card-header border" >
+                <strong class="card-title mb-3">Console logs</strong>
+            </div>
+            <div class="breadcrumbs">
+                <div class="d-flex justify-content-center py-3">
+                    <div class="row">
+                        <div class="col-4 col-sm-2">
+                            <strong>Debug</strong>
+                            <label class="switch switch-text switch-primary switch-pill" >
+                                <input type="checkbox" class="switch-input" id="inp-Debug" checked="true" onclick="toggle_messages('Debug');">
+                                <span data-on="On" data-off="Off" class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="col-4 col-sm-2">
+                            <strong>Info</strong>
+                            <label class="switch switch-text switch-info switch-pill" >
+                                <input type="checkbox" class="switch-input" id="inp-Info" checked="true"  onclick="toggle_messages('Info');">
+                                <span data-on="On" data-off="Off" class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="col-4 col-sm-2">
+                            <strong>Warning</strong>
+                            <label class="switch switch-text switch-warning switch-pill" >
+                                <input type="checkbox" class="switch-input" id="inp-Warning" checked="true" onclick="toggle_messages('Warning');">
+                                <span data-on="On" data-off="Off" class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="col-4 col-sm-2">
+                            <strong>Error</strong>
+
+                            <label class="switch switch-text switch-danger switch-pill" >
+                                <input type="checkbox" class="switch-input" id="inp-Error" checked="true" onclick="toggle_messages('Error');">
+                                <span data-on="On" data-off="Off" class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid bg-white border-bottom "  id="console">
+                <div id="dummyElement"></div>
+                {% for item in config.console_messages %}
+                    {% with it=item %}
+                        {% include 'public/view_logs/logs_line.html' %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+            <!--/.col-->
+
+
+
+{% endblock %}
+
+{% block picture%}{% endblock %}
+
+{% block pageScript %}
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect('');
+        socket.on('broadcasted console message', function() {
+                jQuery("#dummyElement").after(arguments[0]);
+                toggle_messages('Debug');
+                toggle_messages('Info');
+                toggle_messages('Warning');
+                toggle_messages('Error');
+            });
+
+        function toggle_messages(type)
+        {
+            if(jQuery('#inp-'+ type).prop("checked") == true)
+            {
+               jQuery('div[name=cls-'+type+']').removeClass("d-none");
+            }
+            else
+            {
+            jQuery('div[name=cls-'+type+']').addClass("d-none");
+            }
+        }
+
+    </script>
+{% endblock %}
+
+
