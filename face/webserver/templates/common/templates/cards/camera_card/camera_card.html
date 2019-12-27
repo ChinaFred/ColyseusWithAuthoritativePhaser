@@ -1,15 +1,18 @@
-                <div id="card-container-camera">
+                <div id="card-container-photo">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title mb-3">Camera</strong>
+                            <strong class="card-title mb-3">Photo</strong>
                         </div>
                         <div class="card-body">
                             <div class="mx-auto d-block">
-                                <img class="mx-auto d-block"   src="{{config.lastPicture}}" alt="Card image cap">
+                                <div >
+                                 {% with it=item %}
+                                    {% include 'common/templates/cards/photo_card/img_photo_card.html' %}
+                                {% endwith %}
                                 <h5 class="text-sm-center mt-2 mb-1"></h5>
                                 <div class="location text-sm-center"><i class="fa  fa-calendar"></i>{{config.lastPictureDateTime|datetime_filter}}</div>
-                                <div class="location text-sm-center"><i class="fa  fa-clock-o"></i>{{config.lastPictureDateTime|datetime_filter('%H:%M:%S.%f')}}</div>
-
+                                <div class="location text-sm-center"><i class="fa  fa-clock-o"></i>{{config.lastPictureDateTime|datetime_filter('%H:%M:%S')}}</div>
+                                </div>
                                 <div class="location text-sm-center">
 
                                         <button id="photo-button" type="button" onclick="shoot_photo()"
@@ -39,12 +42,12 @@
                                 success: function(result)
                                 {
 
-                                    jQuery("#card-container-camera").replaceWith(result);
+                                    jQuery("#img-photo").replaceWith(result);
 
                                 }
                             }
                         );
-                        console.log("end ajax test");
+
                     }
 
                 </script>

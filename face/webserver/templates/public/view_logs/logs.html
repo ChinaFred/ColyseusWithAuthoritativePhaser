@@ -10,7 +10,7 @@
                 <strong class="card-title mb-3">Console logs</strong>
             </div>
             <div class="breadcrumbs">
-                <div class="d-flex justify-content-center py-3">
+                <div class="d-flex justify-content-center my-auto">
                     <div class="row">
                         <div class="col-4 col-sm-2">
                             <strong>Debug</strong>
@@ -45,22 +45,35 @@
                                 <span class="switch-handle"></span>
                             </label>
                         </div>
-
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg my-auto">
+                            <button id="photo-button" type="button" onclick="get_server_state()"
+                                                class="btn btn-sm btn-info btn-block"
+                                                style="overwrite:none">
+                                            <i class="fa fa-refresh fa-lg"></i>&nbsp;
+                                            <span id="photo-button-text" >Etat du serveur</span>
+                                            <span id="photo-button-sending" style="display:none;">Sending…</span>
+                             </button>
+                        </div>
 
                     </div>
                 </div>
             </div>
-
-            <div class="container-fluid bg-white border-bottom "  id="console">
-                <div id="dummyElement"></div>
-                {% for item in config.console_messages %}
-                    {% with it=item %}
-                        {% include 'public/view_logs/logs_line.html' %}
-                    {% endwith %}
-                {% endfor %}
+            <div class="overflow-auto" >
+                <div class="container-fluid bg-white border-bottom overflow-auto "   id="console">
+                    <div id="dummyElement"></div>
+                    {% for item in config.console_messages %}
+                        {% with it=item %}
+                            {% include 'public/view_logs/logs_line.html' %}
+                        {% endwith %}
+                    {% endfor %}
+                </div>
             </div>
             <!--/.col-->
+             <script type="text/javascript" charset="utf-8">
 
+             </script>
 
 
 {% endblock %}
@@ -86,9 +99,27 @@
             }
             else
             {
-            jQuery('div[name=cls-'+type+']').addClass("d-none");
+                jQuery('div[name=cls-'+type+']').addClass("d-none");
             }
         }
+
+
+                    function get_server_state()
+                    {
+
+                        jQuery.ajax(
+                            {
+                                url: "/get_server_state",
+                                success: function(result)
+                                {
+
+                                    console.log("server state requested")
+
+                                }
+                            }
+                        );
+
+                    }
 
     </script>
 {% endblock %}

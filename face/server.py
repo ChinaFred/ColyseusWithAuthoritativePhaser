@@ -1,11 +1,11 @@
 import tools.console_message as cm
+from tools.notification import create_info, create_error, create_warning
 from tools.toolbox import isRunningOnWindows
-import threading
 import datetime
-import time
 import os
 from flask_socketio import SocketIO
 from flask import render_template
+from brain import controler as controler
 
 current = None
 
@@ -36,9 +36,10 @@ def error(message):
 
 
 class Server:
-    def __init__(self, bot_name):
+    def __init__(self):
         global current
-        self.botName = bot_name
+        self.controler = controler.Controler("config.json")
+        self.botName = self.controler.config["botname"]
         self.lastPicture = "/static/img/terminator_penguin.png"
         self.lastPictureDateTime = ""
         self.readPicturePath = "/static/img/cam/"
@@ -66,40 +67,48 @@ class Server:
         from face import webserver
         log("------------------------------starting webserver-------------------------------------")
         app = self.app
-        self.display_state()
+        #self.display_state()
         self.app_is_running = True
-        self.socketio.run(app, debug=True, port=80, host='0.0.0.0', use_reloader=False)
+        self.socketio.run(app, debug=self.controler.config["server_debug"], port=self.controler.config["server_port"],
+                          host=self.controler.config["server_host"], use_reloader=False)
 
     def display_state(self):
-        log("--------------------------------Current server config--------------------------------")
-        log("*************************************************************************************")
-        log("Name : {}".format(self.botName))
-        log("lastPicture : {}".format(self.lastPicture))
-        log("lastPictureDateTime : {}".format(self.lastPictureDateTime))
-        log("readPicturePath : {}".format(self.readPicturePath))
-        log("self.writePicturePath : {}".format(self.writePicturePath))
-        log("isRunningOnWindows : {}".format(self.isRunningOnWindows))
-        log("app.root_path: " + self.app.root_path)
-        log("app.instance_path: " + self.app.instance_path)
-        log("app: " + str(self.app))
-        log("app_is_running:" + str(self.app_is_running))
-        log("notifications: " + str(self.notifications))
-        log("nb console messages: " + str(self.console_messages_count))
-        log("*************************************************************************************")
+        message = "--------------------------------Current server config--------------------------------<br/>"
+        message = message + "*************************************************************************************<br/>"
+        message = message + "Name : {}".format(self.botName) + "<br/>"
+        message = message + "lastPicture : {}".format(self.lastPicture) + "<br/>"
+        message = message + "lastPictureDateTime : {}".format(self.lastPictureDateTime) + "<br/>"
+        message = message + "readPicturePath : {}".format(self.readPicturePath) + "<br/>"
+        message = message + "self.writePicturePath : {}".format(self.writePicturePath) + "<br/>"
+        message = message + "isRunningOnWindows : {}".format(self.isRunningOnWindows) + "<br/>"
+        message = message + "app.root_path: " + self.app.root_path + "<br/>"
+        message = message + "app.instance_path: " + self.app.instance_path + "<br/>"
+        message = message + "app: " + str(self.app) + "<br/>"
+        message = message + "app_is_running:" + str(self.app_is_running) + "<br/>"
+        message = message + "notifications: " + str(self.notifications) + "<br/>"
+        message = message + "nb console messages: " + str(self.console_messages_count) + "<br/>"
+        message = message + "*************************************************************************************<br/>"
+        self.debug(message)
 
+    def create_info_notification(self, text):
+        self.add_notification(create_info(text))
+
+    def create_error_notification(self, text):
+        self.add_notification(create_error(text))
+
+    def create_warning_notification(self, text):
+        self.add_notification(create_warning(text))
 
     def add_notification(self, n):
         self.notifications.append(n)
         self.notifications_count = len(self.notifications)
-        log("new notification added: " + str(n.type) + " -- " + n.message)
+        self.info("new notification added: " + str(n.type) + " -- " + n.message)
         html = render_template("common/templates/notifications.html", config=self)
         self.socketio.emit('broadcasted notifications', html)
 
     def delete_notification(self, i):
-        current.warning("delete_notification at server reached")
         self.notifications.pop(i)
         self.notifications_count = len(self.notifications)
-        current.error("notification removed at index :" + str(i))
         html = render_template("common/templates/notifications.html", config=self)
         self.socketio.emit('broadcasted notifications', html)
 

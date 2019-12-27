@@ -1,0 +1,50 @@
+                <div id="card-container-photo">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title mb-3">Photo</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="mx-auto d-block">
+
+                                 {% with it=item %}
+                                    {% include 'common/templates/cards/photo_card/img_photo_card.html' %}
+                                {% endwith %}
+
+                                <div class="location text-sm-center">
+
+                                        <button id="photo-button" type="button" onclick="shoot_photo()"
+                                                class="btn btn-lg btn-info btn-block"
+                                                style="overwrite:none">
+                                            <i class="fa fa-camera fa-lg"></i>&nbsp;
+                                            <span id="photo-button-text" >Prendre une photo</span>
+                                            <span id="photo-button-sending" style="display:none;">Sending…</span>
+                                        </button>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="card-text text-sm-center">
+                                Settings (à définir)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function shoot_photo()
+                    {
+
+                        jQuery.ajax(
+                            {
+                                url: "/photo_shoot_ajax",
+                                success: function(result)
+                                {
+
+                                    jQuery("#img-photo").replaceWith(result);
+
+                                }
+                            }
+                        );
+
+                    }
+
+                </script>

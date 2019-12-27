@@ -1,55 +1,31 @@
-from server import log
-import threading
-import face.server as server
-
-c = None
-
-
-def start_webserver(controler):
-    controler.face.start()
+import json
+from sensors.proximity_detection_sensor import ProximityDetectionSensor as pds
+from sensors.camera import camera as cam
 
 
 class Controler:
-    def __init__(self, botname):
-        global c
-        log("-------------------------------------------------------------------------------------")
-        log("-------------------------creating application controler------------------------------")
-        # create thread for webserver
-        c = self
-        self.face = server.Server(botname, c)
-        self.faceThread = threading.Thread(name="Face", daemon=True, target=start_webserver, args=[self])
-        log("-------------------------PPPPPPPPPPPPPPPPPPPPPPPPP-----------------------------------")
-        log(threading.active_count())
-        log(threading.enumerate())
-        log("-------------------------starting webserver thread-----------------------------------")
-        self.faceThread.start()
-        log(threading.active_count())
-        log(threading.enumerate())
-
-    def get_app(self):
-        return self.face.app
-
-    def set_app(self, a):
-        self.face.app = a
+    def __init__(self, config_filename):
+        self.config = None
+        with open(config_filename) as json_data_file:
+            self.config = json.load(json_data_file)
+        self.pds_left = pds.ProximityDetectionSensor(self.config["proximity_left_PIN"])
+        self.pds_right = pds.ProximityDetectionSensor(self.config["proximity_right_PIN"])
+        self.camera = cam.Camera()
+        print("contorler initializes")
+        print(self.camera)
 
 
-def get_app():
-    return c.face.app
+    def display(self):
+        debug("------------------------------------controler----------------------------------------")
+        debug("*************************************************************************************")
+        debug("*************************************************************************************")
 
 
-def set_app(a):
-    c.face.app = a
 
 
-def display():
-    global c
-    log("--------------------------------Current controler------------------------------------")
-    log("*************************************************************************************")
-    log("face : {}".format(c.face))
-    log("faceThread : {}".format(c.faceThread))
-    log("*************************************************************************************")
 
 
-def get_server():
-    return c.face
 
+    #import json
+    #with open('config.json', 'w') as outfile:
+    #    json.dump(data, outfile)
