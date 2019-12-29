@@ -38,15 +38,15 @@ def error(message):
 class Server:
     def __init__(self):
         global current
-        self.controler = controler.Controler("config.json")
-        self.botName = self.controler.config["botname"]
-        self.lastPicture = "/static/img/terminator_penguin.png"
-        self.lastPictureDateTime = ""
-        self.readPicturePath = "/static/img/cam/"
         self.isRunningOnWindows = isRunningOnWindows()
         root = ""
         if not self.isRunningOnWindows:
             root = "/terminator"
+        self.controler = controler.Controler(os.getcwd() + root + "/config.json")
+        self.botName = self.controler.config["botname"]
+        self.lastPicture = "/static/img/terminator_penguin.png"
+        self.lastPictureDateTime = ""
+        self.readPicturePath = "/static/img/cam/"
         self.writePicturePath = os.getcwd() + root + "/face/webserver/static/img/cam/"
         self.app = None
         self.socketio = None
