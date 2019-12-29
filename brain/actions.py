@@ -44,7 +44,6 @@ class Actions:
     def stop_reading_continuously_pds_statuses(self, s):
         try:
             self.threads_status[self.index_read_continuously_pds] = STOPPED
-            s.debug("nombre de tâches actives: %d" % threading.active_count())
         except:
             s.error("Failed to stop task 'reading_continuously_pds_statuses'")
 
