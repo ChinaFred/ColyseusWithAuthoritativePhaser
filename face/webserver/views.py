@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import render_template
 import face.server as server
 

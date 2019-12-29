@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import render_template, request
 import face.server as s
 from brain import actions
