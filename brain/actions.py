@@ -39,7 +39,7 @@ class Actions:
                                                                     self.read_continuously_pds_statuses,
                                                                     s, self.index_read_continuously_pds
                                                                     )
-        s.debug("nombre de tâches actives: %d" % threading.active_count())
+
 
     def stop_reading_continuously_pds_statuses(self, s):
         try:
