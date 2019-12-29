@@ -1,6 +1,10 @@
 import json
-from sensors.proximity_detection_sensor import ProximityDetectionSensor as pds
+from sensors.proximity_detection_sensor import ProximityDetectionSensor as PDS
 from sensors.camera import camera as cam
+from brain.actions import Actions
+
+pds_left = 0
+pds_right = 1
 
 
 class Controler:
@@ -8,17 +12,22 @@ class Controler:
         self.config = None
         with open(config_filename) as json_data_file:
             self.config = json.load(json_data_file)
-        self.pds_left = pds.ProximityDetectionSensor(self.config["proximity_left_PIN"])
-        self.pds_right = pds.ProximityDetectionSensor(self.config["proximity_right_PIN"])
+        self.pds = [PDS.ProximityDetectionSensor(self.config["proximity_left_PIN"]),
+                    PDS.ProximityDetectionSensor(self.config["proximity_right_PIN"])]
         self.camera = cam.Camera()
-        print("contorler initializes")
-        print(self.camera)
-
+        self.pds_statuses = [0, 0]
+        self.actions = Actions()
 
     def display(self):
         debug("------------------------------------controler----------------------------------------")
         debug("*************************************************************************************")
         debug("*************************************************************************************")
+
+    def read_pds_statuses(self):
+        return [self.pds[pds_left].get_status(), self.pds[pds_right].get_status()]
+
+
+
 
 
 

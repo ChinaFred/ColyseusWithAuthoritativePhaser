@@ -3,14 +3,14 @@ import flask
 from flask import render_template
 from face.server import log
 import face.server as server
-from flask_socketio import emit
 from flask_socketio import SocketIO
+
 
 
 log("------------------------------creating webserver-------------------------------------")
 app = flask.Flask(__name__, static_url_path="/static")
 server.current.app = app
-socketio = SocketIO(app,  logger=True, engineio_logger=True)
+socketio = SocketIO(app,  logger=True, engineio_logger=True, async_mode='threading')
 server.current.socketio = socketio
 
 
@@ -34,6 +34,8 @@ from face.webserver import views_submit
 from face.webserver import views_ajax
 
 
+
+
 log("--------------------------Creating template filters----------------------------------")
 
 
@@ -49,35 +51,7 @@ def datetime_filter(value, f='%d-%m-%Y'):
 app.jinja_env.filters['datetime_filter'] = datetime_filter
 
 
-log("---------------------------adding sockets routes-- ----------------------------------")
+log("-------------------------initializing server events----------------------------------")
 
 
-@socketio.on('broadcast_notifications')
-def broadcast_notifications():
-    emit('broadcasted notifications', server.notifications, broadcast=True)
-
-
-@socketio.on('broadcast_console_message')
-def broadcast_console_message():
-    emit('broadcasted console message', server.notifications, broadcast=True)
-
-
-@socketio.on('client connexion')
-def client_connect():
-    log('client connected')
-
-
-log("---------------------------adding sockets error handling-----------------------------")
-
-
-@socketio.on_error()        # Handles the default namespace
-def error_handler(e):
-    server.error("error_handler socketio" + str(e))
-    pass
-
-
-@socketio.on_error_default  # handles all namespaces without an explicit error handler
-def default_error_handler(e):
-    server.error("default_error_handler socketio" + str(e))
-    pass
 

@@ -1,5 +1,6 @@
 from flask import render_template, request
 import face.server as s
+from brain import actions
 
 
 app = s.current.app
@@ -15,6 +16,18 @@ def photo_shoot_ajax():
     return template
 
 
+@app.route('/read_proximity', methods=['GET'])
+def read_proximity():
+    server.controler.actions.start_reading_continuously_pds_statuses(server)
+    return "success"
+
+
+@app.route('/stop_proximity', methods=['GET'])
+def stop_reading_proximity():
+    server.controler.actions.stop_reading_continuously_pds_statuses(server)
+    return "success"
+
+
 @app.route('/get_server_state', methods=['GET'])
 def get_server_state():
     server.display_state()
@@ -23,9 +36,6 @@ def get_server_state():
 
 @app.route('/remove_notification', methods=['POST'])
 def remove_notification():
-    server.debug("request get_json " + str(request.get_json(force=True)))
-    json = request.get_json(force=True)
-    server.debug(json)
     server.delete_notification(int(request.get_json(force=True).get("index")))
     server.debug("notification removed")
     return "Success"

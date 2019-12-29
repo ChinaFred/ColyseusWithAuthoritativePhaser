@@ -55,6 +55,8 @@ class Server:
         self.console_messages = []
         self.console_messages_count = 0
         self.app_is_running = False
+        self.page_title = "vide"
+        self.active_tasks = 0
         current = self
         log("-------------------------------webserver Initialized----------------------------------")
 

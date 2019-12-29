@@ -1,7 +1,5 @@
 from flask import render_template
 import face.server as server
-from face.server import log
-import sensors.camera as camera
 
 
 app = server.current.app
@@ -9,6 +7,7 @@ app = server.current.app
 
 @app.route("/simple")
 def index_simple():
+    server.current.page_title = "Simple"
     return render_template("public/index_simple.html")
 
 
@@ -16,22 +15,26 @@ def index_simple():
 @app.route("/index")
 @app.route("/")
 def index():
+    server.current.page_title = "Dashboard"
     return render_template("public/index.html", config=server.current)
 
 
 @app.route("/logs")
 def console():
+    server.current.page_title = "Logs"
     return render_template("public/view_logs/logs.html", config=server.current)
 
 
 @app.route("/server_display_state")
 def display_state():
+    server.current.page_title = "logs > display state"
     server.current.display_state()
     return render_template("public/view_logs/logs.html", config=server.current)
 
 
 @app.route("/about")
 def about():
+    server.current.page_title = "About"
     return "All about terminator"
 
 
@@ -40,4 +43,4 @@ def about():
 #    return Response(camera.gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-log("-------------------------------Views initialized------------------------------------")
+server.current.info("-------------------------------Views initialized------------------------------------")

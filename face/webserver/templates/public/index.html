@@ -7,10 +7,13 @@
 
             <!--/.col-->
 
-            <div class="col"  id="camera">
+            <div class="col col-6"  id="camera">
                 {% include 'common/templates/cards/photo_card/photo_card.html' %}
             </div>
             <!--/.col-->
+            <div class="col col-6"  id="proximity_sensors">
+                {% include 'common/templates/cards/proximity_sensors_card/proximity_sensors_card.html' %}
+            </div>
 
 
 
@@ -20,9 +23,18 @@
 
 {% block pageScript %}
  <script type="text/javascript" charset="utf-8">
+ <!--photo-card-->
          jQuery(document).ready(function($) {
                        $("photo-button").click();
                    });
+  <!--proximity_sensors-card-->
+         jQuery( document ).ready(function(){
+                                        socket.on('new_pds_statuses',
+                                                    function() {console.log(arguments[0])
+                                                       jQuery("#cnt-proximity").replaceWith(arguments[0]);
+                                                    }
+                                                  );
+                                    })
 
  </script>
 {% endblock %}

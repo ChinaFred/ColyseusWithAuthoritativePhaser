@@ -1,0 +1,8 @@
+            <div class="row" id="cnt-proximity">
+                {% for item in config.controler.pds_statuses %}
+                     <div class="col col-6 text-center" id="sensor-right">
+                         <h2>{% if loop.index|int() == 1 %}Gauche{% endif %}{% if loop.index|int() == 2 %}Droite{% endif %}</h2>
+                         <span class="badge {% if item|int() == 0 %}badge-success{% endif %}{% if item|int() == 1 %}badge-danger{% endif %} ">{% if item|int() == 0 %}Rien en vue{% endif %}{% if item|int() == 1 %}Obstacle{% endif %}</span>
+                    </div>
+                {% endfor %}
+            </div>
