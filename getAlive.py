@@ -1,8 +1,8 @@
-import robot.server as server
-import brain.ride as brain
-import robot.config as config
+import face.server as server
+
+
+a = 0
 
 if __name__ == "__main__":
-    server.start()
-    config.display()
-
+    s = server.Server()
+    s.start()

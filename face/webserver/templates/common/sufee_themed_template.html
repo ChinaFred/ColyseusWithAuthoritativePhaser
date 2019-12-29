@@ -1,0 +1,59 @@
+  {% include 'common/templates/header.html' %}
+
+<body>
+
+
+    <!-- Left Panel -->
+
+    <aside id="left-panel" class="left-panel">
+            {% include 'common/templates/nav.html' %}
+    </aside><!-- /#left-panel -->
+
+    <!-- Left Panel -->
+
+    <!-- Right Panel -->
+
+    <div id="right-panel" class="right-panel column max-height">
+
+        <!-- Header-->
+            {% include 'common/templates/notification_header.html' %}
+        <!-- Header-->
+
+            {% include 'common/templates/breadcrumbs.html' %}
+
+        <div class="container-fluid d-flex flex-fill flex-column">
+            <!-- alert-->
+            <div class="col-sm-12  d-none">
+                <div class="alert  alert-success alert-dismissible fade d-none" role="alert">
+                    <span class="badge badge-pill badge-success">Success</span> You successfully read this important alert message.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <!--/.alert-->
+            <div class="column max-height" >
+                {% block main %}{% endblock %}
+            </div>
+                <!--/.col-->
+
+
+            <!--/.col-->
+
+
+
+
+
+
+        </div> <!-- .content -->
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+  {% include 'common/templates/footer_script.html' %}
+
+    {% block script %}{% endblock %}
+    {% block pageScript %}{% endblock %}
+</body>
+
+</html>

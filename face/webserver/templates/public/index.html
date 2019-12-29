@@ -1,0 +1,70 @@
+{% extends "common/sufee_themed_template.html" %}
+
+{% block title %}Terminator{% endblock %}
+
+{% block main %}
+
+
+            <!--/.col-->
+
+            <div class="col col-6"  id="camera">
+                {% include 'common/templates/cards/photo_card/photo_card.html' %}
+            </div>
+            <!--/.col-->
+            <div class="col col-6"  id="proximity_sensors">
+                {% include 'common/templates/cards/proximity_sensors_card/proximity_sensors_card.html' %}
+            </div>
+
+
+
+{% endblock %}
+
+
+
+{% block pageScript %}
+ <script type="text/javascript" charset="utf-8">
+ <!--photo-card-->
+         jQuery(document).ready(function($) {
+                       $("photo-button").click();
+                   });
+  <!--proximity_sensors-card-->
+         jQuery( document ).ready(function(){
+                                        socket.on('new_pds_statuses',
+                                                    function() {console.log(arguments[0])
+                                                       jQuery("#cnt-proximity").replaceWith(arguments[0]);
+                                                    }
+                                                  );
+                                    })
+
+ </script>
+{% endblock %}
+ <!--
+ includes utilisés pour le dashboard de démonstration de sufee
+
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/widgets.js') }}"></script>
+     <script src="{{ url_for('static', filename='vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+<script>
+        (function($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);
+    </script>
+    -->
+
