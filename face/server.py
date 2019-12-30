@@ -42,7 +42,7 @@ class Server:
         root = ""
         if not self.isRunningOnWindows:
             root = "/terminator"
-        self.controler = controler.Controler(os.getcwd() + root + "/config.json")
+        self.controler = controler.Controler(os.getcwd() + "/config.json")
         self.botName = self.controler.config["botname"]
         self.lastPicture = "/static/img/terminator_penguin.png"
         self.lastPictureDateTime = ""
