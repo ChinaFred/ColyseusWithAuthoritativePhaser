@@ -1,3 +1,4 @@
+# coding: utf-8
 import json
 from sensors.proximity_detection_sensor import ProximityDetectionSensor as PDS
 from sensors.camera import camera as cam

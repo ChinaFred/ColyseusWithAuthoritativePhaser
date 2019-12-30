@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import redirect
 import face.server as server
 from face.server import log
