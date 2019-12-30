@@ -1,3 +1,4 @@
+# coding: utf-8
 import tools.console_message as cm
 from tools.notification import create_info, create_error, create_warning
 from tools.toolbox import isRunningOnWindows

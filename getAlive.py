@@ -1,3 +1,4 @@
+# coding: utf-8
 import face.server as server
 
 

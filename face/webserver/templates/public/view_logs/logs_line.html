@@ -1,3 +1,4 @@
+
 {% macro get_type(type) -%}{% if type|int() == 0 %}badge-primary{% endif %}{% if type|int() == 1 %}badge-info{% endif %}{% if type|int() == 2 %}badge-warning{% endif %}{% if type|int() == 3 %}badge-danger{% endif %}{%- endmacro %}
 {% macro get_label(type) -%}{% if type|int() == 0 %}Debug{% endif %}{% if type|int() == 1 %}Info{% endif %}{% if type|int() == 2 %}Warning{% endif %}{% if type|int() == 3 %}Error{% endif %}{%- endmacro %}
      <div class="row consolemessage py-2 border"  name="cls-{{ get_label(it.type) }}">
