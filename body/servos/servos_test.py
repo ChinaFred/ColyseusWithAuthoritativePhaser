@@ -1,30 +1,33 @@
 import RPi.GPIO as GPIO
 import time
 
-servoPIN = 27
+print("HORIZONTAL 22")
+servoPIN = 23
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(servoPIN, GPIO.OUT)
+
+p = GPIO.PWM(servoPIN, 50)  # GPIO 17 for PWM with 50Hz
+p.start(0)  # Initialization
+p.ChangeDutyCycle(3)     # Changes the pulse width to 3 (so moves the servo)
+time.sleep(1)                 # Wait 1 second
+p.ChangeDutyCycle(12)    # Changes the pulse width to 12 (so moves the servo)
+time.sleep(1)
+
+# Clean up everything
+p.stop()                 # At the end of the program, stop the PWM
+GPIO.cleanup()
+print("VERTICAL 27")
+servoPIN = 25
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(servoPIN, GPIO.OUT)
 
-p = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
-p.start(2.5) # Initialization
-try:
-  while True:
-    p.ChangeDutyCycle(5)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(7.5)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(10)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(12.5)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(10)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(7.5)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(5)
-    time.sleep(0.5)
-    p.ChangeDutyCycle(2.5)
-    time.sleep(0.5)
-except KeyboardInterrupt:
-  p.stop()
-  GPIO.cleanup()
+p = GPIO.PWM(servoPIN, 50)  # GPIO 17 for PWM with 50Hz
+p.start(0)  # Initialization
+p.ChangeDutyCycle(3)     # Changes the pulse width to 3 (so moves the servo)
+time.sleep(1)                 # Wait 1 second
+p.ChangeDutyCycle(12)    # Changes the pulse width to 12 (so moves the servo)
+time.sleep(1)
+
+# Clean up everything
+p.stop()                 # At the end of the program, stop the PWM
+GPIO.cleanup()
