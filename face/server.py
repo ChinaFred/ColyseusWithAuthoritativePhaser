@@ -7,6 +7,8 @@ import os
 from flask_socketio import SocketIO
 from flask import render_template
 from brain import controler as controler
+import threading
+import json
 
 current = None
 
@@ -39,18 +41,19 @@ def error(message):
 class Server:
     def __init__(self):
         global current
+        self.config_filename = os.getcwd() + "/config.json"
         self.isRunningOnWindows = isRunningOnWindows()
         root = ""
-        #if not self.isRunningOnWindows:
-        #    root = "/terminator"
-        self.controler = controler.Controler(os.getcwd() + "/config.json")
-        self.botName = self.controler.config["botname"]
-        self.lastPicture = "/static/img/terminator_penguin.png"
-        self.lastPictureDateTime = ""
-        self.readPicturePath = "/static/img/cam/"
-        self.writePicturePath = os.getcwd() + root + "/face/webserver/static/img/cam/"
         self.app = None
         self.socketio = None
+        self.controler = None
+        with open(self.config_filename) as json_data_file:
+            self.config = json.load(json_data_file)
+        self.botName = self.config["botname"]
+        self.latestPicture = "/static/img/terminator_penguin.png"
+        self.latestPictureDateTime = ""
+        self.readPicturePath = "/static/img/cam/"
+        self.writePicturePath = os.getcwd() + root + "/face/webserver/static/img/cam/"
         self.notifications = []
         self.notifications_count = 0
         self.console_messages = []
@@ -61,26 +64,28 @@ class Server:
         current = self
         log("-------------------------------webserver Initialized----------------------------------")
 
-    def set_last_picture(self, filename):
-        self.lastPicture = self.readPicturePath+filename
-        self.lastPictureDateTime = datetime.datetime.fromtimestamp(os.path.getmtime(self.writePicturePath+filename))
+    def set_latest_picture(self, filename):
+        self.latestPicture = self.readPicturePath + filename
+        self.latestPictureDateTime = datetime.datetime.fromtimestamp(os.path.getmtime(self.writePicturePath + filename))
 
     def start(self):
         log("----------------------------importing webserver config---------------------------------")
         from face import webserver
-        log("------------------------------starting webserver-------------------------------------")
         app = self.app
+        log("------------------------------Enabling actions-------------------------------")
+        self.controler = controler.Controler(self)
+        log("------------------------------starting webserver-------------------------------------")
         #self.display_state()
         self.app_is_running = True
-        self.socketio.run(app, debug=self.controler.config["server_debug"], port=self.controler.config["server_port"],
-                          host=self.controler.config["server_host"], use_reloader=False)
+        self.socketio.run(app, debug=self.config["server_debug"], port=self.config["server_port"],
+                          host=self.config["server_host"], use_reloader=False)
 
     def display_state(self):
         message = "--------------------------------Current server config--------------------------------<br/>"
         message = message + "*************************************************************************************<br/>"
         message = message + "Name : {}".format(self.botName) + "<br/>"
-        message = message + "lastPicture : {}".format(self.lastPicture) + "<br/>"
-        message = message + "lastPictureDateTime : {}".format(self.lastPictureDateTime) + "<br/>"
+        message = message + "lastPicture : {}".format(self.latestPicture) + "<br/>"
+        message = message + "lastPictureDateTime : {}".format(self.latestPictureDateTime) + "<br/>"
         message = message + "readPicturePath : {}".format(self.readPicturePath) + "<br/>"
         message = message + "self.writePicturePath : {}".format(self.writePicturePath) + "<br/>"
         message = message + "isRunningOnWindows : {}".format(self.isRunningOnWindows) + "<br/>"
@@ -90,6 +95,29 @@ class Server:
         message = message + "app_is_running:" + str(self.app_is_running) + "<br/>"
         message = message + "notifications: " + str(self.notifications) + "<br/>"
         message = message + "nb console messages: " + str(self.console_messages_count) + "<br/>"
+        message = message + "*************************************************************************************<br/>"
+        self.debug(message)
+
+    @staticmethod
+    def get_nb_active_tasks():
+        return threading.active_count()
+
+    def display_active_threads(self):
+        message = "--------------------------------Current server threads--------------------------------<br/>"
+        message = message + "*************************************************************************************<br/>"
+        message = message + "Threads count : " + str(self.get_nb_active_tasks()) + "<br/>"
+        for thread in threading.enumerate():
+            message = message + ('Thread (name: "{0}")<br/>'.format(thread.name))
+        message = message + "*************************************************************************************<br/>"
+        self.debug(message)
+
+    def display_active_tasks(self):
+        message = "--------------------------------Current server tasks---------------------------------<br/>"
+        message = message + "*************************************************************************************<br/>"
+        active_tasks = self.controler.get_active_tasks()
+        message = message + "Tasks count : " + str(len(active_tasks)) + "<br/>"
+        for a in active_tasks:
+            message = message + ('Tâche: "<strong>{0}</strong> ({1})"<br/>'.format(a.name, a.threadName))
         message = message + "*************************************************************************************<br/>"
         self.debug(message)
 
@@ -106,13 +134,13 @@ class Server:
         self.notifications.append(n)
         self.notifications_count = len(self.notifications)
         self.info("new notification added: " + str(n.type) + " -- " + n.message)
-        html = render_template("common/templates/notifications.html", config=self)
+        html = render_template("common/templates/notifications.html", server=self)
         self.socketio.emit('broadcasted notifications', html)
 
     def delete_notification(self, i):
         self.notifications.pop(i)
         self.notifications_count = len(self.notifications)
-        html = render_template("common/templates/notifications.html", config=self)
+        html = render_template("common/templates/notifications.html", server=self)
         self.socketio.emit('broadcasted notifications', html)
 
     def insert_console_message(self, console_message):

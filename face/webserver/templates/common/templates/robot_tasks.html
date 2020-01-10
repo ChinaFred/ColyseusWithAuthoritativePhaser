@@ -1,0 +1,38 @@
+{% macro get_status_color(status) -%}{% if status|int() == 0 %}danger{% endif %}{% if status|int() == 1 %}success{% endif %}{%- endmacro %}
+{% macro get_icon(status) -%}{% if status|int() == 0 %}ti-control-play{% endif %}{% if status|int() == 1 %}ti-control-stop{% endif %}{%- endmacro %}
+                        <div id="server_tasks" class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                id="active_task"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-gear"></i>
+                                <span class="count bg-primary" >{{server.controler.count_active_tasks()}}</span>
+                            </button>
+                            <div class="dropdown-menu border border-primary" aria-labelledby="message">
+                                <p class="red">Currently {{server.controler.count_active_tasks()}} active task(s)</p>
+                                {% for item in server.controler.tasks %}
+                                <a class="dropdown-item media alert-{{ get_status_color(item.status) }} border-bottom border-dark"
+                                   href="javascript:toggle_read_task_in_cards('{{item.name}}')">
+                                    <h4><span class="photo media-left {{item.icon}}">
+                                         <input type="hidden" value="{{item.status|int()}}" id="task-status-{{item.name}}"/>
+                                         <div class="media-left m-3"><button type="button" class="btn btn-{{ get_status_color(not item.status) }} btn-sm btn-circle float-left border border-dark"
+                                                                             style="text-align: center;"><i class="{{ get_icon(item.status) }}"></i></button></div>
+                                    </span></h4>
+
+
+
+                                    <div class="message media-body mr-1 mb-2" style="width:300px">
+                                        <div class="row row-cols-2">
+                                            <div class="name ml-2" style="width:240px">{{item.name}}</div>
+                                            <div class="time " style="width:60px">
+                                                <p style="font-size:8px;color:black" class="text-center"><strong>Started:</strong></p>
+                                                <p style="font-size:8px;color:black" class="text-center">{{item.startedDateTime|datetime_filter()}}</p>
+                                                <p style="font-size:8px;color:black" class="text-center">{{item.startedDateTime|datetime_filter('%H:%M:%S')}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                {% endfor %}
+
+                            </div>
+                        </div>

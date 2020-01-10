@@ -1,8 +1,11 @@
+{% macro get_sensor_name(idx) -%}{% if idx|int() == 1 %}Left{% endif %}{% if idx|int() == 2 %}Right{% endif %}{%- endmacro %}
+
             <div class="row" id="cnt-proximity">
-                {% for item in config.controler.pds_statuses %}
-                     <div class="col col-6 text-center" id="sensor-right">
-                         <h2>{% if loop.index|int() == 1 %}Gauche{% endif %}{% if loop.index|int() == 2 %}Droite{% endif %}</h2>
-                         <span class="badge {% if item|int() == 1 %}badge-success{% endif %}{% if item|int() == 0 %}badge-danger{% endif %} ">{% if item|int() == 1 %}Rien en vue{% endif %}{% if item|int() == 0 %}Obstacle{% endif %}</span>
+                {% for item in server.controler.pds_statuses %}
+                     <div class="col col-6 text-center text-truncate" id="sensor-{{get_sensor_name(loop.index)}}">
+                         <h2>{{get_sensor_name(loop.index)}}</h2>
+                         <span class="badge {% if item|int() == 1 %}badge-success{% endif %}{% if item|int() == 0 %}badge-danger{% endif %} ">{% if item|int() == 1 %}Nothing{% endif %}{% if item|int() == 0 %}Obstacle{% endif %}</span>
                     </div>
                 {% endfor %}
             </div>
+

@@ -2,13 +2,32 @@
     <script src="{{ url_for('static', filename='vendors/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
         var socket = io.connect('');
         socket.on('broadcasted notifications', function() {
                 jQuery("#notifications").replaceWith(arguments[0]);
             });
+        socket.on('broadcasted_server_tasks', function() {
+                jQuery("#server_tasks").replaceWith(arguments[0]);
+            });
+        <!--updates of the cards -->
+        socket.on('card_update', function() {
+                       jQuery(arguments[0][0]).replaceWith(arguments[0][1]);
+            });
+        <!-- gestion des processes : start & stop -->
+        function toggle_task_state(task)
+        {
+            return  jQuery.ajax(
+                            {
+                                url: "/toggle_task_state/" + task,
+                                success: function(result)
+                                            {
+                                                    return true;
+                                            }
+                            }
+                        );
+        }
 
 
     </script>

@@ -11,26 +11,28 @@
                                         <br/>
                                     </div>
                                     <div class="row">
-                                        <div class="col">
-                                            <button id="proximity-start-button" type="button" onclick="read_proximity('start')"
+
+                                            <button id="{{PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS}}-start-button" type="button"
+                                                    onclick="toggle_read_task_in_cards('{{PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS}}')"
                                                     class="btn btn-lg btn-info btn-block"
                                                     style="overwrite:none">
                                                 <i class="fa fa-play fa-lg"></i>&nbsp;
-                                                <span id="photo-button-text" >Démarrer observation</span>
-                                                <span id="photo-button-sending" style="display:none;">Sending…</span>
+                                                <span id="proximity-start-button-text" >Start</span>
+                                                <span id="proximity-start-button-sending" class="d-none">Sending…</span>
                                             </button>
                                             <br/> <br/>
-                                        </div >
-                                        <div class="col">
-                                            <button id="proximity-stop-button" type="button" onclick="read_proximity('stop')"
-                                                    class="btn btn-lg btn-danger btn-block disabled "
+                                            <button id="{{PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS}}-stop-button" type="button"
+                                                    onclick="toggle_read_task_in_cards('{{PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS}}')"
+                                                    class="btn btn-lg btn-danger btn-block d-none"
                                                     style="overwrite:none">
                                                 <i class="fa fa-stop fa-lg"></i>&nbsp;
-                                                <span id="photo-button-text"  >stopper l'observation</span>
-                                                <span id="photo-button-sending" style="display:none;">Sending…</span>
+                                                <span id="proximity-stop-button-text" class="d-none"  >Stopped</span>
+                                                <span id="proximity-stop-button-sending" >Stop</span>
                                             </button>
+                                            <script>
+                                                manage_buttons_in_cards("{{PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS}}")
+                                            </script>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -38,38 +40,3 @@
                         </div>
                     </div>
                 </div>
-                <script>
-                    var proximity_sensors_reading = 0;
-                    function read_proximity(s)
-                    {
-                        jQuery("#proximity-start-button").toggleClass("disabled")
-                        jQuery("#proximity-stop-button").toggleClass("disabled")
-                        if(s == "start" && proximity_sensors_reading !=1)
-                            jQuery.ajax(
-                                {
-                                    url: "/read_proximity",
-                                    success: function(result)
-                                    {
-                                        proximity_sensors_reading = 1;
-                                        console.log(" call to /read_poximity : " +result)
-                                    }
-                                }
-                            );
-                        else
-                            jQuery.ajax(
-                                {
-                                    url: "/stop_proximity",
-                                    success: function(result)
-                                    {
-                                        proximity_sensors_reading = 0;
-                                        console.log(" call to /stop_poximity : " +result)
-                                    }
-                                }
-                            );
-
-                    }
-
-
-
-
-                </script>
