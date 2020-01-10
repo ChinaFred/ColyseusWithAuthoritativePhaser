@@ -1,0 +1,32 @@
+
+                <div id="cnt-irrc">
+                    <div class="row">
+                        <div class="col">
+                            <h2>Latest</h2>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col text-center" id="first-irrc-command">
+
+                             <span class="badge badge-success">{{server.controler.ir_commands|first}}</span>
+                        </div>
+                    </div>
+                     <div class="row ">
+                         <br/>
+                     </div>
+                      <div class="row">
+                        <div class="col">
+                            <h2>Previous</h2>
+                            <br/>
+                        </div>
+                      </div>
+                    <div class="row ">
+                    {% for item in server.controler.ir_commands %}
+                        {% if loop.index|int() > 1 %}
+                        <div class="col  text-center" id="irrc-command{{loop.index}}">
+                             <span class="badge badge-primary ">{{item}}</span>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                   </div>
+                </div>

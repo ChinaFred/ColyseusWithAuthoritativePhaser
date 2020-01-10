@@ -1,7 +1,22 @@
-
     <div id="img-photo">
-        <img class="mx-auto d-block"   src="{{config.lastPicture}}" alt="Card image cap">
-        <h5 class="text-sm-center mt-2 mb-1"></h5>
-        <div class="location text-sm-center"><i class="fa  fa-calendar"></i>{{config.lastPictureDateTime|datetime_filter}}</div>
-        <div class="location text-sm-center"><i class="fa  fa-clock-o"></i>{{config.lastPictureDateTime|datetime_filter('%H:%M:%S')}}</div>
+        <div >
+            <img class="mx-auto d-block"   src="{{server.latestPicture}}" alt="Card image cap">
+            <h5 class="text-sm-center mt-2 mb-1"></h5>
+            <div class="location text-sm-center"><i class="fa  fa-calendar"></i>{{server.latestPictureDateTime|datetime_filter}}</div>
+            <div class="location text-sm-center"><i class="fa  fa-clock-o"></i>{{server.latestPictureDateTime|datetime_filter('%H:%M:%S')}}</div>
+        </div>
+            <div class="row">
+            <br/>
+        </div>
+        <div class="location text-sm-center">
+
+                <button id="photo-button" type="button" onclick="shoot_photo('{{PossibleTasks.PA_SHOOT_PHOTO}}')"
+                        class="btn btn-lg btn-info btn-block"
+                        style="overwrite:none">
+                    <i class="fa fa-camera fa-lg"></i>&nbsp;
+                    <span id="photo-button-text" >Shoot a photo</span>
+                    <span id="photo-button-sending" class="d-none disabled">Shooting…</span>
+                </button>
+
+        </div>
     </div>

@@ -3,7 +3,6 @@
   "server_port": 80,
   "server_debug": true,
   "server_host": "0.0.0.0",
-  "remote_PIN": 18,
   "remote_key_forward": "0x18",
   "remote_key_left": "0x08",
   "remote_key_stop": "0x1c",
@@ -13,5 +12,8 @@
   "remote_key_decelerate": "0x07",
   "proximity_left_PIN": 19,
   "proximity_right_PIN": 16,
+  "IR_control_PIN": 18,
+  "servo_motor_horizontal_PIN": 27,
+  "servo_motor_vertical_PIN": 22,
   "motor": "tobedefined"
 }

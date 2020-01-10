@@ -17,17 +17,18 @@ class Camera:
         filepath = server.writePicturePath + filename
         try:
             if not self.picam_installed:
-                server.warning("draw an hello world picture")
                 images.draw_fake_image(filepath)
+                server.debug("waiting to simulate photo processing")
+                server.socketio.sleep(5)
             else:
                 with picamera.PiCamera() as camera:
                     server.info("camera is taking a picture")
                     camera.resolution = (resolution_x, resolution_y)
                     camera.start_preview()
                     # Camera warm-up time
-                    time.sleep(2)
+                    server.socketio.sleep(2)
                     camera.capture(filepath)
-            server.set_last_picture(filename)
+            server.set_latest_picture(filename)
         except Exception as e:
             server.error("<h1>error in shoot_photo</h1> </br>filename : " + filename + "</br>filePath : " + filepath +
                          "</br> error : " + str(e))

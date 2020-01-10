@@ -1,6 +1,7 @@
 # coding: utf-8
 from flask import render_template
 import face.server as server
+from brain.task import PossibleTasks
 
 
 app = server.current.app
@@ -17,20 +18,20 @@ def index_simple():
 @app.route("/")
 def index():
     server.current.page_title = "Dashboard"
-    return render_template("public/index.html", config=server.current)
+    return render_template("public/index.html", server=server.current, PossibleTasks=PossibleTasks)
 
 
 @app.route("/logs")
 def console():
     server.current.page_title = "Logs"
-    return render_template("public/view_logs/logs.html", config=server.current)
+    return render_template("public/view_logs/logs.html", server=server.current)
 
 
 @app.route("/server_display_state")
 def display_state():
     server.current.page_title = "logs > display state"
     server.current.display_state()
-    return render_template("public/view_logs/logs.html", config=server.current)
+    return render_template("public/view_logs/logs.html", server=server.current)
 
 
 @app.route("/about")

@@ -1,37 +1,71 @@
 # coding: utf-8
 from flask import render_template, request
 import face.server as s
-from brain import actions
+from brain.task import *
 
 
 app = s.current.app
 server = s.current
 
 
+@app.route('/toggle_task_state/<task>')
+def toggle_task_state(task):
+    try:
+        server.info("Starting task '{0}'".format(task))
+        action = server.controler.get_action(task)
+        if action.status == TaskStatus.STOPPED:
+            action.start(server)
+        else:
+            action.stop(server)
+    except:
+        server.error("Error while trying to toggle task ({0}) state.".format(task))
+    return "success"
+
 @app.route('/photo_shoot_ajax', methods=['GET'])
 def photo_shoot_ajax():
-    server.controler.camera.shoot_photo("camera.jpeg", server)
-    server.create_info_notification("Une photo a été prise")
-    template = render_template("common/templates/cards/photo_card/img_photo_card.html", config=server)
-    server.debug(template)
-    return template
+    server.controler.get_action(PossibleTasks.PA_SHOOT_PHOTO).start(server)
+    return "success"
 
 
 @app.route('/read_proximity', methods=['GET'])
 def read_proximity():
-    server.controler.actions.start_reading_continuously_pds_statuses(server)
+    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).start(server)
     return "success"
 
 
 @app.route('/stop_proximity', methods=['GET'])
 def stop_reading_proximity():
-    server.controler.actions.stop_reading_continuously_pds_statuses(server)
+    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).stop(server)
+    return "success"
+
+
+@app.route('/read_irrc', methods=['GET'])
+def read_irrc():
+    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).start(server)
+    return "success"
+
+
+@app.route('/stop_irrc', methods=['GET'])
+def stop_reading_irrc():
+    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).stop(server)
     return "success"
 
 
 @app.route('/get_server_state', methods=['GET'])
 def get_server_state():
     server.display_state()
+    return "success"
+
+
+@app.route('/get_server_tasks', methods=['GET'])
+def get_server_tasks():
+    server.display_active_tasks()
+    return "success"
+
+
+@app.route('/get_server_threads', methods=['GET'])
+def get_server_threads():
+    server.display_active_threads()
     return "success"
 
 

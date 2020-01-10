@@ -1,7 +1,7 @@
 # coding: utf-8
 from flask import render_template, request
 import face.server as s
-from brain import actions
+from brain.task import *
 
 
 app = s.current.app
@@ -12,7 +12,8 @@ server = s.current
 def photo_shoot_ajax():
     server.controler.camera.shoot_photo("camera.jpeg", server)
     server.create_info_notification("Une photo a été prise")
-    template = render_template("common/templates/cards/photo_card/img_photo_card.html", config=server)
+    template = render_template("common/templates/cards/photo_card/img_photo_card.html", config=server,
+                               PossibleTasks=PossibleTasks)
     server.debug(template)
     return template
 

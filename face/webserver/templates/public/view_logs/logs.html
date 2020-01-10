@@ -1,7 +1,7 @@
 
 {% extends "common/sufee_themed_template.html" %}
 
-{% block title %}{{config.botName}}{% endblock %}
+{% block title %}{{server.botName}}{% endblock %}
 
 {% block main %}
 
@@ -48,23 +48,40 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col col-lg my-auto">
-                            <button id="photo-button" type="button" onclick="get_server_state()"
+                        <div class="col col-lg mx-1 my-1">
+                            <button id="display-server-state-button" type="button" onclick="get_server_state()"
                                                 class="btn btn-sm btn-info btn-block"
                                                 style="overwrite:none">
                                             <i class="fa fa-refresh fa-lg"></i>&nbsp;
-                                            <span id="photo-button-text" >Etat du serveur</span>
-                                            <span id="photo-button-sending" style="display:none;">Sending…</span>
-                             </button>
+                                            <span id="display-server-state-button-text" >State</span>
+                                            <span id="display-server-state-button-sending" class="d-none">Requesting…</span>
+                             </button> <br/>
                         </div>
-
+                        <div class="col col-lg mx-1 my-1">
+                            <button id="display-server-tasks-button" type="button" onclick="get_server_tasks()"
+                                                class="btn btn-sm btn-info btn-block"
+                                                style="overwrite:none">
+                                            <i class="fa fa-tasks fa-android"></i>&nbsp;
+                                            <span id="display-server-tasks-button-text" >Tasks</span>
+                                            <span id="display-server-tasks-button-sending" class="d-none">Requesting…</span>
+                             </button> <br/>
+                        </div>
+                        <div class="col col-lg mx-1 my-1 e">
+                            <button id="display-server-threads-button" type="button" onclick="get_server_threads()"
+                                                class="btn btn-sm btn-info btn-block"
+                                                style="overwrite:none">
+                                            <i class="fa fa-tasks fa-lg"></i>&nbsp;
+                                            <span id="display-server-threads-button-text" >Threads</span>
+                                            <span id="display-server-threads-button-sending" class="d-none">Requesting…</span>
+                             </button> <br/>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="overflow-auto" >
                 <div class="container-fluid bg-white border-bottom overflow-auto "   id="console">
                     <div id="dummyElement"></div>
-                    {% for item in config.console_messages %}
+                    {% for item in server.console_messages %}
                         {% with it=item %}
                             {% include 'public/view_logs/logs_line.html' %}
                         {% endwith %}
@@ -108,19 +125,59 @@
                     function get_server_state()
                     {
 
+                        jQuery("#display-server-state-button-text").toggleClass("d-none")
+                        jQuery("#display-server-state-button-sending").toggleClass("d-none")
                         jQuery.ajax(
                             {
                                 url: "/get_server_state",
                                 success: function(result)
                                 {
-
                                     console.log("server state requested")
-
+                                    jQuery("#display-server-state-button-text").toggleClass("d-none")
+                                    jQuery("#display-server-state-button-sending").toggleClass("d-none")
                                 }
                             }
                         );
 
                     }
+
+                    function get_server_tasks()
+                    {
+                        jQuery("#display-server-tasks-button-text").toggleClass("d-none")
+                        jQuery("#display-server-tasks-button-sending").toggleClass("d-none")
+                        jQuery.ajax(
+                            {
+                                url: "/get_server_tasks",
+                                success: function(result)
+                                {
+                                    console.log("server tasks requested")
+                                    jQuery("#display-server-tasks-button-text").toggleClass("d-none")
+                                    jQuery("#display-server-tasks-button-sending").toggleClass("d-none")
+                                }
+                            }
+                        );
+
+                    }
+
+                    function get_server_threads()
+                    {
+                        jQuery("#display-server-threads-button-text").toggleClass("d-none")
+                        jQuery("#display-server-threads-button-sending").toggleClass("d-none")
+                        jQuery.ajax(
+                            {
+                                url: "/get_server_threads",
+                                success: function(result)
+                                {
+                                    console.log("server threads requested")
+                                    jQuery("#display-server-threads-button-text").toggleClass("d-none")
+                                    jQuery("#display-server-threads-button-sending").toggleClass("d-none")
+                                }
+                            }
+                        );
+
+                    }
+
+
 
     </script>
 {% endblock %}

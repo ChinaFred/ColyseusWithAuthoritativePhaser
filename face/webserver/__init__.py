@@ -25,7 +25,7 @@ log("------------------------prepare server error messages----------------------
 def ma_page_erreur(error):
     server.error("--------------------------------Error during a call----------------------------------")
     server.error(str(error))
-    return render_template("public/errorpage.html", err=error, config=server.current)
+    return render_template("public/errorpage.html", err=error, server=server.current)
 
 
 log("--------------------------------Loading routes---------------------------------------")
@@ -41,7 +41,7 @@ log("--------------------------Creating template filters------------------------
 
 
 @app.template_filter()
-def datetime_filter(value, f='%d-%m-%Y'):
+def datetime_filter(value, f='%d/%m/%Y'):
     ret = ""
     if value:
         """Convert a datetime to a different format."""
