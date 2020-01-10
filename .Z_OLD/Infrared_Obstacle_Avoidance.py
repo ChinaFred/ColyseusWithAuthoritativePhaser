@@ -9,16 +9,19 @@ DL = 19
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
-GPIO.setup(DR,GPIO.IN,GPIO.PUD_UP)
-GPIO.setup(DL,GPIO.IN,GPIO.PUD_UP)
+GPIO.setup(DR, GPIO.IN, GPIO.PUD_UP)
+GPIO.setup(DL, GPIO.IN, GPIO.PUD_UP)
 DR_status = GPIO.input(DR)
-		DL_status = GPIO.input(DL)
+DL_status = GPIO.input(DL)
 try:
 	while True:
 		DR_status = GPIO.input(DR)
 		DL_status = GPIO.input(DL)
 		if((DL_status == 1) and (DR_status == 1)):
 			Ab.forward()
+			time.sleep(1)
+			print("DR_status :" + str(DR_status))
+			print("DL_status :" + str(DL_status))
 			print("forward")
 		elif((DL_status == 1) and (DR_status == 0)):
 			Ab.left()

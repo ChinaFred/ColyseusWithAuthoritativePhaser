@@ -1,0 +1,17 @@
+{
+  "botname": "Terminator",
+  "server_port": 80,
+  "server_debug": true,
+  "server_host": "0.0.0.0",
+  "remote_PIN": 18,
+  "remote_key_forward": "0x18",
+  "remote_key_left": "0x08",
+  "remote_key_stop": "0x1c",
+  "remote_key_backward": "0x52",
+  "remote_key_right": "0x5a",
+  "remote_key_accelerate": "0x15",
+  "remote_key_decelerate": "0x07",
+  "proximity_left_PIN": 19,
+  "proximity_right_PIN": 16,
+  "motor": "tobedefined"
+}

@@ -1,13 +1,18 @@
+# coding: utf-8
 from flask import redirect
-import brain.config as config
+import face.server as server
+from face.server import log
 
-app = config.current.app
+
+app = server.current.app
 
 
 @app.route('/shoot_photo', methods=['POST'])
 def shoot_photo():
-    print("Taking picture")
+    log("Taking a picture")
     #test_action.test_draw_image("monImage.png")
     return redirect('/')
 
+
+log("-----------------------Submit  Views initialized------------------------------------")
 
