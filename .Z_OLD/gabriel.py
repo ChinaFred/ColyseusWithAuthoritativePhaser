@@ -11,7 +11,7 @@ while True:
     Ab.forward()
 print("quoi? ")
 
-for i in range(1:4):
+for i in range(1, 4):
     print(i)
     print("shsh")
 print("fdkjdfslkjsdklfjdslfkjdsfl")
