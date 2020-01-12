@@ -7,5 +7,6 @@ from AlphaBot import AlphaBot
 
 
 Ab = AlphaBot()
-
-Ab.forward()
+while(True)
+    Ab.forward()
+print("quoi? ")
