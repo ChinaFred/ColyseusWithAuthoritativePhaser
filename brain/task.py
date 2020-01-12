@@ -42,7 +42,9 @@ class PossibleTasks:
                 new_command = server.controler.ir_control.get_key()
                 if  tools.toolbox.isRunningOnWindows():
                     new_command = random.randint(0, 24) # mock pour génération de données
-                if new_command is not None and new_command != "repeat":
+                    server.log("running on windows")
+                if new_command is not None: # and new_command != "repeat":
+                    server.debug(new_command)
                     server.controler.add_ir_commands(new_command)
                     html = render_template(
                         "common/templates/cards/ir_remote_control_card/cnt_ir_remote_control_card.html",

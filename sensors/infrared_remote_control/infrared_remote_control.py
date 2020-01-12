@@ -13,6 +13,7 @@ class InfraredRemoteControl:
         print("get_Key *******************************************************************$$")
         if GPIO.input(self.PIN) == 0:
             count = 0
+            print("Count *******************************************$$")
 
             while GPIO.input(self.PIN) == 0 and count < 200:  # 9ms
                 count += 1
