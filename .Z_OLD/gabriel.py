@@ -22,7 +22,7 @@ for i in range(1, 4):
     print("shsh")
 print("fdkjdfslkjsdklfjdslfkjdsfl")
 
-DL_status = 1
+DL_status = 1 # 1 signifie pas d'obstacle
 while DL_status:
     DL_status = GPIO.input(DL)
     Ab.forward()
