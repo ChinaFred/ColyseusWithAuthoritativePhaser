@@ -25,7 +25,6 @@ print("fdkjdfslkjsdklfjdslfkjdsfl")
 DL_status = 1
 while DL_status:
     DL_status = GPIO.input(DL)
-    time.sleep(1)
     Ab.forward()
     print("av&nce")
 print("quoi? ")
