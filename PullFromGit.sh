@@ -1,2 +1,1 @@
 sudo python Infrared_Remote_Control_FULL_PROGRAM.py
-sudo python getAlive.py
