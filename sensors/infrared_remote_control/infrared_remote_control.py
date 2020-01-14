@@ -74,3 +74,4 @@ try:
             print("Get the key: 0x%02x" % key)
 except KeyboardInterrupt:
     GPIO.cleanup()
+
