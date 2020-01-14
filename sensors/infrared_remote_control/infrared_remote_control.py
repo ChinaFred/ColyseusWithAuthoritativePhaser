@@ -69,7 +69,7 @@ class InfraredRemoteControl:
 try:
     ir = InfraredRemoteControl(18, time.sleep)
     while True:
-        key = ir.get_Key()
+        key = ir.get_key()
         if key != ERROR:
             print("Get the key: 0x%02x" % key)
 except KeyboardInterrupt:
