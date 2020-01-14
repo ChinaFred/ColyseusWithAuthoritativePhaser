@@ -34,15 +34,19 @@ class InfraredRemoteControl:
                 return ERROR
 
     def IRStart(self):
+        print("start IRSTART")
         timeFallingEdge = [0, 0]
         timeRisingEdge = 0
         timeSpan = [0, 0]
+        print("start WAIT 1")
         GPIO.wait_for_edge(self.PIN, GPIO.FALLING)
         timeFallingEdge[0] = time.time()
+        print("start WAIT 2")
         GPIO.wait_for_edge(self.PIN, GPIO.RISING)
         timeRisingEdge = time.time()
         GPIO.wait_for_edge(self.PIN, GPIO.FALLING)
         timeFallingEdge[1] = time.time()
+        print("start Tule")
         timeSpan[0] = timeRisingEdge - timeFallingEdge[0]
         timeSpan[1] = timeFallingEdge[1] - timeRisingEdge
         # Start signal is composed with a 9 ms leading space and a 4.5 ms pulse.
