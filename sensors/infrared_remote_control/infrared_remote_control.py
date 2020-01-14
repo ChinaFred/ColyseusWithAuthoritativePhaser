@@ -1,5 +1,8 @@
 # coding: utf-8
 import RPi.GPIO as GPIO
+import time
+
+ERROR = 0xFE
 
 
 class InfraredRemoteControl:
@@ -10,42 +13,64 @@ class InfraredRemoteControl:
         GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
 
     def get_key(self):
-        if GPIO.input(self.PIN) == 0:
-            count = 0
-            while GPIO.input(self.PIN) == 0 and count < 200:  # 9ms
-                count += 1
-                self.sleep(0.00006)
+        byte = [0, 0, 0, 0]
+        if not self.IRStart():
+            self.sleep(0.11)  # One message frame lasts 108 ms.
+            return ERROR
+        else:
+            for i in range(0, 4):
+                byte[i] = self.getByte()
+            # Start signal is followed by 4 bytes:
+            # byte[0] is an 8-bit ADDRESS for receiving
+            # byte[1] is an 8-bit logical inverse of the ADDRESS
+            # byte[2] is an 8-bit COMMAND
+            # byte[3] is an 8-bit logical inverse of the COMMAND
+            if byte[0] + byte[1] == 0xff and byte[2] + byte[3] == 0xff:
+                return byte[2]
+            else:
+                return ERROR
 
-            count = 0
-            while GPIO.input(self.PIN) == 1 and count < 80:  # 4.5ms
-                count += 1
-                self.sleep(0.00006)
+    def IRStart(self):
+        timeFallingEdge = [0, 0]
+        timeRisingEdge = 0
+        timeSpan = [0, 0]
+        GPIO.wait_for_edge(self.PIN, GPIO.FALLING)
+        timeFallingEdge[0] = time.time()
+        GPIO.wait_for_edge(self.PIN, GPIO.RISING)
+        timeRisingEdge = time.time()
+        GPIO.wait_for_edge(self.PIN, GPIO.FALLING)
+        timeFallingEdge[1] = time.time()
+        timeSpan[0] = timeRisingEdge - timeFallingEdge[0]
+        timeSpan[1] = timeFallingEdge[1] - timeRisingEdge
+        # Start signal is composed with a 9 ms leading space and a 4.5 ms pulse.
+        if 0.0085 < timeSpan[0] < 0.0095 and 0.004 < timeSpan[1] < 0.005:
+            return True
+        else:
+            return False
 
-            idx = 0
-            cnt = 0
-            data = [0, 0, 0, 0]
-            for i in range(0, 32):
-                count = 0
-                while GPIO.input(self.PIN) == 0 and count < 15:  # 0.56ms
-                    count += 1
-                    self.sleep(0.00006)
+    def getByte(self):
+        byte = 0
+        timeRisingEdge = 0
+        timeFallingEdge = 0
+        timeSpan = 0
+        # Logic '0' == 0.56 ms LOW and 0.56 ms HIGH
+        # Logic '1' == 0.56 ms LOW and 0.169 ms HIGH
+        for i in range(0, 8):
+            GPIO.wait_for_edge(self.PIN, GPIO.RISING)
+            timeRisingEdge = time.time()
+            GPIO.wait_for_edge(self.PIN, GPIO.FALLING)
+            timeFallingEdge = time.time()
+            timeSpan = timeFallingEdge - timeRisingEdge
+            if 0.0016 < timeSpan < 0.0018:
+                byte |= 1 << i
+        return byte
 
-                count = 0
-                while GPIO.input(self.PIN) == 1 and count < 40:  # 0: 0.56mx
-                    count += 1  # 1: 1.69ms
-                    self.sleep(0.00006)
 
-                if count > 8:
-                    data[idx] |= 1 << cnt
-                if cnt == 7:
-                    cnt = 0
-                    idx += 1
-                else:
-                    cnt += 1
-
-            if data[0] + data[1] == 0xFF and data[2] + data[3] == 0xFF:  # check
-                return data[2]
-
-            if data[0] == 255 and data[1] == 255 and data[2] == 15 and data[3] == 255:
-                return "repeat"
-
+try:
+    ir = InfraredRemoteControl(18, time.sleep)
+    while True:
+        key = ir.get_Key()
+        if key != ERROR:
+            print("Get the key: 0x%02x" % key)
+except KeyboardInterrupt:
+    GPIO.cleanup()
