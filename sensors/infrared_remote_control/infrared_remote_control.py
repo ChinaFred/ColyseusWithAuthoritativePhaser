@@ -11,6 +11,7 @@ class InfraredRemoteControl:
         self.sleep = sleep_function
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
+        print("instantiated")
 
     def get_key(self):
         byte = [0, 0, 0, 0]
@@ -19,7 +20,7 @@ class InfraredRemoteControl:
             self.sleep(0.11)  # One message frame lasts 108 ms.
             return ERROR
         else:
-            print("else")
+            print("elsee")
             for i in range(0, 4):
                 byte[i] = self.getByte()
             # Start signal is followed by 4 bytes:
@@ -72,6 +73,7 @@ try:
     ir = InfraredRemoteControl(18, time.sleep)
     while True:
         key = ir.get_key()
+        print("reading")
         if key != ERROR:
             print("Get the key: 0x%02x" % key)
 except KeyboardInterrupt:
