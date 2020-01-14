@@ -15,9 +15,11 @@ class InfraredRemoteControl:
     def get_key(self):
         byte = [0, 0, 0, 0]
         if not self.IRStart():
+            print("not started")
             self.sleep(0.11)  # One message frame lasts 108 ms.
             return ERROR
         else:
+            print("else")
             for i in range(0, 4):
                 byte[i] = self.getByte()
             # Start signal is followed by 4 bytes:
