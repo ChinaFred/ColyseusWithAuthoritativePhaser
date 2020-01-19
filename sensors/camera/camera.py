@@ -1,16 +1,32 @@
 # coding: utf-8
+import io
 import time
 from tools import images
+import threading
+
 try:
     import picamera
-    picam_installed = True
+
+    _picam_installed = True
 except:
-    picam_installed = False
+    _picam_installed = False
 
 
 class Camera:
-    def __init__(self):
-        self.picam_installed = picam_installed
+    frame = None
+    last_access = None
+    thread = None  # background thread that reads frames from camera
+    picam_installed = _picam_installed
+
+    def initialize(self):
+        if Camera.thread is None:
+            # start background frame thread
+            Camera.thread = threading.Thread(target=self.read_stream)
+            Camera.thread.start()
+
+            # wait until frames start to be available
+            while self.frame is None:
+                time.sleep(0)
 
     def shoot_photo(self, filename, server, resolution_x=640, resolution_y=480):
         filename = str(time.time()) + filename
@@ -33,20 +49,37 @@ class Camera:
             server.error("<h1>error in shoot_photo</h1> </br>filename : " + filename + "</br>filePath : " + filepath +
                          "</br> error : " + str(e))
 
+    @classmethod
+    def read_stream(cls):
+        with picamera.PiCamera() as camera:
+            # camera setup
+            camera.resolution = (320, 240)
+            camera.hflip = True
+            camera.vflip = True
 
-def stream_video(stream, camera):
-    # stream = io.BytesIO()
-    # with picamera.PiCamera() as camera:
-    camera.resolution = (640, 480)
-    camera.start_recording(stream, format='h264', quality=23)
+            # let camera warm up
+            camera.start_preview()
+            time.sleep(2)
 
-    camera.wait_recording(15)
-    camera.stop_recording()
-    return camera
+            stream = io.BytesIO()
+            for foo in camera.capture_continuous(stream, 'jpeg',
+                                                 use_video_port=True):
+                # store frame
+                stream.seek(0)
+                cls.frame = stream.read()
 
+                # reset stream for next frame
+                stream.seek(0)
+                stream.truncate()
 
-def stop_streaming(stream, camera):
-    # stream = io.BytesIO()
-    # with picamera.PiCamera() as camera:
-    camera.stop_recording()
-    return camera
+                # if there hasn't been any clients asking for frames in
+                # the last 10 seconds stop the thread
+                if time.time() - cls.last_access > 10:
+                    break
+        cls.thread = None
+
+        def get_frame(self):
+            Camera.last_access = time.time()
+            self.initialize()
+            return Camera.frame
+
