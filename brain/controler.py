@@ -18,7 +18,7 @@ class Controler:
         self.pds = [pds.ProximityDetectionSensor(server.config["proximity_left_PIN"]),
                     pds.ProximityDetectionSensor(server.config["proximity_right_PIN"])]
         self.camera = cam.Camera()
-        self.ir_control = ir_control.InfraredRemoteControl(server.config["IR_control_PIN"], server.socketio.sleep)
+        # self.ir_control = ir_control.InfraredRemoteControl(server.config["IR_control_PIN"], server.socketio.sleep)
         # self.servos = [sm.init_horizontal_servo(server.config["servo_motor_horizontal_PIN"]),
                        # sm.init_vertical_servo(server.config["servo_motor_vertical_PIN"])]
         # results and statuses
