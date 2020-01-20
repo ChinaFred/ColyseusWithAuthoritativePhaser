@@ -73,13 +73,13 @@ class InfraredRemoteControl:
         return byte
 
 
-try:
-    ir = InfraredRemoteControl(18, time.sleep)
-    while True:
-        key = ir.get_key()
-        print("reading")
-        if key != ERROR:
-            print("Get the key: 0x%02x" % key)
-except KeyboardInterrupt:
-    GPIO.cleanup()
+# try:
+#     ir = InfraredRemoteControl(18, time.sleep)
+#     while True:
+#         key = ir.get_key()
+#         print("reading")
+#         if key != ERROR:
+#             print("Get the key: 0x%02x" % key)
+# except KeyboardInterrupt:
+#     GPIO.cleanup()
 
