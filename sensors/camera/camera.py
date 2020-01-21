@@ -49,6 +49,11 @@ class Camera:
             server.error("<h1>error in shoot_photo</h1> </br>filename : " + filename + "</br>filePath : " + filepath +
                          "</br> error : " + str(e))
 
+    def get_frame(self):
+        Camera.last_access = time.time()
+        self.initialize()
+        return Camera.frame
+
     @classmethod
     def read_stream(cls):
         with picamera.PiCamera() as camera:
@@ -78,8 +83,4 @@ class Camera:
                     break
         cls.thread = None
 
-        def get_frame(self):
-            Camera.last_access = time.time()
-            self.initialize()
-            return Camera.frame
 
