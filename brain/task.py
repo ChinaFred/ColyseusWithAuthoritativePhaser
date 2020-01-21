@@ -5,7 +5,7 @@ import flask_socketio as sio
 from flask import render_template
 import tools.toolbox
 import random
-from brain.task import *
+from sensors.camera import camera as cam
 
 
 class TaskStatus:
@@ -18,6 +18,7 @@ class PossibleTasks:
     PA_READ_CONTINUOUSLY_PDS_STATUS = "Read proximity sensors"
     PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL = "Read infrared remote control"
     PA_SHOOT_PHOTO = "Shoot a photo"
+    PA_STREAM_VIDEO = "Stream video"
 
     @staticmethod
     def read_continuously_pds_statuses(server):
@@ -61,6 +62,14 @@ class PossibleTasks:
             server.socketio.emit('card_update', ["#img-photo", html], broadcast=True)
             server.debug(html)
             server.controler.get_action(PossibleTasks.PA_SHOOT_PHOTO).stop(server)
+            Task.broadcast_tasks(server)
+
+    @staticmethod
+    def stream_video(server):
+        with server.app.test_request_context():
+            while server.controler.get_action(PossibleTasks.PA_STREAM_VIDEO).status == \
+                    TaskStatus.RUNNING:
+                cam.Camera.read_stream()
             Task.broadcast_tasks(server)
 
     @staticmethod
@@ -119,6 +128,12 @@ class Task:
     def init_shoot_photo():
         return Task(PossibleTasks.PA_SHOOT_PHOTO,
                     PossibleTasks.shoot_a_photo,
+                      "ti-camera")
+
+    @staticmethod
+    def init_stream_video():
+        return Task(PossibleTasks.PA_STREAM_VIDEO,
+                    PossibleTasks.stream_video(),
                       "ti-camera")
 
     @staticmethod

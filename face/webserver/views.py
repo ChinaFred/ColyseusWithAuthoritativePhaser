@@ -44,7 +44,7 @@ def about():
 def gen(camera):
     """Video streaming generator function."""
     while True:
-        frame = camera.get_frame()
+        frame = camera.get_frame(server.current)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
@@ -60,5 +60,6 @@ def video_feed():
 def streaming():
     """Video streaming home page."""
     return render_template('common/templates/cards/camera_card/video_feed_camera_card.html')
+
 
 server.current.info("-------------------------------Views initialized------------------------------------")

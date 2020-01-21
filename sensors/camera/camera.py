@@ -3,6 +3,7 @@ import io
 import time
 from tools import images
 import threading
+import brain.task as task
 
 try:
     import picamera
@@ -49,11 +50,13 @@ class Camera:
             server.error("<h1>error in shoot_photo</h1> </br>filename : " + filename + "</br>filePath : " + filepath +
                          "</br> error : " + str(e))
 
-    def get_frame(self):
+    @staticmethod
+    def get_frame(server):
         Camera.last_access = time.time()
-        self.initialize()
+        while Camera.frame is None and server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status == \
+                task.TaskStatus.RUNNING:
+            time.sleep(0)
         return Camera.frame
-
 
     @classmethod
     def read_stream(cls):
