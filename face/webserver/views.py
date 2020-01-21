@@ -57,7 +57,7 @@ def video_feed():
 
 
 @app.route('/streaming')
-def index():
+def streaming():
     """Video streaming home page."""
     return render_template('common/templates/cards/camera_card/video_feed_camera_card.html')
 
