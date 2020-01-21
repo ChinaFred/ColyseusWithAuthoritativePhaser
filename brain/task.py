@@ -5,7 +5,6 @@ import flask_socketio as sio
 from flask import render_template
 import tools.toolbox
 import random
-from sensors.camera import camera as cam
 
 
 class TaskStatus:
@@ -69,7 +68,7 @@ class PossibleTasks:
         with server.app.test_request_context():
             while server.controler.get_action(PossibleTasks.PA_STREAM_VIDEO).status == \
                     TaskStatus.RUNNING:
-                cam.Camera.read_stream()
+                server.controler.camera.read_stream()
             Task.broadcast_tasks(server)
 
     @staticmethod

@@ -58,8 +58,8 @@ class Camera:
             time.sleep(0)
         return Camera.frame
 
-    @classmethod
-    def read_stream(cls):
+    @staticmethod
+    def read_stream():
         with picamera.PiCamera() as camera:
             # camera setup
             camera.resolution = (320, 240)
@@ -75,7 +75,7 @@ class Camera:
                                                  use_video_port=True):
                 # store frame
                 stream.seek(0)
-                cls.frame = stream.read()
+                Camera.frame = stream.read()
 
                 # reset stream for next frame
                 stream.seek(0)
@@ -83,8 +83,8 @@ class Camera:
 
                 # if there hasn't been any clients asking for frames in
                 # the last 10 seconds stop the thread
-                if time.time() - cls.last_access > 10:
+                if time.time() - Camera.last_access > 10:
                     break
-        cls.thread = None
+        Camera.thread = None
 
 
