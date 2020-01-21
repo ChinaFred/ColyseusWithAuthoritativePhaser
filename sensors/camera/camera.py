@@ -60,7 +60,7 @@ class Camera:
         return Camera.frame
 
     @staticmethod
-    def read_stream(server):
+    def read_stream():
         with picamera.PiCamera() as camera:
             # camera setup
             camera.resolution = (320, 240)
@@ -84,6 +84,7 @@ class Camera:
 
                 # if there hasn't been any clients asking for frames in
                 # the last 10 seconds stop the thread
+                print("**************************************PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
                 if time.time() - Camera.last_access > 10 or \
                         not server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status:
                     break
