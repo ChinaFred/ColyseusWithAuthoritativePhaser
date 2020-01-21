@@ -68,7 +68,7 @@ class PossibleTasks:
         with server.app.test_request_context():
             while server.controler.get_action(PossibleTasks.PA_STREAM_VIDEO).status == \
                     TaskStatus.RUNNING:
-                server.controler.camera.read_stream()
+                server.controler.camera.read_stream(server)
             Task.broadcast_tasks(server)
 
     @staticmethod

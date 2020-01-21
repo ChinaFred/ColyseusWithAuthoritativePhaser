@@ -60,7 +60,7 @@ class Camera:
         return Camera.frame
 
     @staticmethod
-    def read_stream():
+    def read_stream(server):
         with picamera.PiCamera() as camera:
             # camera setup
             camera.resolution = (320, 240)
