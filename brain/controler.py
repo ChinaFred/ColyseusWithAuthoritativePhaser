@@ -32,6 +32,7 @@ class Controler:
         self.tasks.append(Task.init_read_continuously_pds_statuses_task())
         self.tasks.append(Task.init_read_continuously_ir_remote_control_task())
         self.tasks.append(Task.init_shoot_photo())
+        self.tasks.append(Task.init_stream_video())
 
     def get_action(self, task_name):
         ret = None
