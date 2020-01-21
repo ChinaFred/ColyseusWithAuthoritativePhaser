@@ -5,7 +5,8 @@ import flask_socketio as sio
 from flask import render_template
 import tools.toolbox
 import random
-import sensors.camera as cam
+from sensors.camera import camera as cam
+
 
 class TaskStatus:
     STOPPED = 0
