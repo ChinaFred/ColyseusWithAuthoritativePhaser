@@ -56,8 +56,8 @@ class Camera:
         Camera.last_access = time.time()
         while Camera.frame is None and server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status == \
                 task.TaskStatus.RUNNING:
-            time.sleep(0)
             server.debug("get_frame")
+            time.sleep(0)
         return Camera.frame
 
     @staticmethod
@@ -70,7 +70,7 @@ class Camera:
 
             # let camera warm up
             camera.start_preview()
-            time.sleep(2)
+            time.sleep(0.2)
 
             stream = io.BytesIO()
             for foo in camera.capture_continuous(stream, 'jpeg',
@@ -85,10 +85,12 @@ class Camera:
 
                 # if there hasn't been any clients asking for frames in
                 # the last 10 seconds stop the thread
-                if time.time() - Camera.last_access > 10 or \
-                        not server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status:
-                    server.debug("break")
+                if time.time() - Camera.last_access > 10:
+                    server.debug("Streaming stopped after ten seconds of inactivity")
+                    server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status = task.TaskStatus.STOPPED
                     break
-        Camera.thread = None
+                if not server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status:
+                    server.debug("Streaming stopped after user request")
+                    break
 
 
