@@ -57,7 +57,7 @@ class Camera:
         while Camera.frame is None and server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status == \
                 task.TaskStatus.RUNNING:
             time.sleep(0)
-            print("get_frame")
+            server.debug("get_frame")
         return Camera.frame
 
     @staticmethod
@@ -87,7 +87,7 @@ class Camera:
                 # the last 10 seconds stop the thread
                 if time.time() - Camera.last_access > 10 or \
                         not server.controler.get_action(task.PossibleTasks.PA_STREAM_VIDEO).status:
-                    print("break")
+                    server.debug("break")
                     break
         Camera.thread = None
 
