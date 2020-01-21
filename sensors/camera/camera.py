@@ -53,6 +53,7 @@ class Camera:
         Camera.last_access = time.time()
         self.initialize()
         return Camera.frame
+    # check
 
     @classmethod
     def read_stream(cls):
