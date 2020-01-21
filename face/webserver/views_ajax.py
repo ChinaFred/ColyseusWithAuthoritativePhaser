@@ -11,7 +11,7 @@ server = s.current
 @app.route('/toggle_task_state/<task>')
 def toggle_task_state(task):
     try:
-        server.info("Starting task '{0}'".format(task))
+        server.info("toggling task '{0}' status".format(task))
         action = server.controler.get_action(task)
         if action.status == TaskStatus.STOPPED:
             action.start(server)
