@@ -133,7 +133,7 @@ class Task:
     @staticmethod
     def init_stream_video():
         return Task(PossibleTasks.PA_STREAM_VIDEO,
-                    PossibleTasks.stream_video(),
+                    PossibleTasks.stream_video,
                       "ti-camera")
 
     @staticmethod
