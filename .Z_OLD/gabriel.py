@@ -26,9 +26,9 @@ print("bonjour papa ")
 DL_status = 1 # 1 signifie pas d'obstacle
 while DL_status:
     DL_status = GPIO.input(DL)
-    Ab.forward(2)
+    Ab.forward(5)
     print("avance")
-    Ab.backward(2)
+    Ab.backward()
     print("recule ")
     time.sleep(100)
     Ab.right()

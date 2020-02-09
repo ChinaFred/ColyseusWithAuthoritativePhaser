@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import time
+import datetime
 
 class AlphaBot(object):
 	
@@ -25,11 +25,13 @@ class AlphaBot(object):
 		self.PWMA.start(50)
 		self.PWMB.start(50)
 
-	def forward(self):
-		GPIO.output(self.IN1,GPIO.HIGH)
-		GPIO.output(self.IN2,GPIO.LOW)
-		GPIO.output(self.IN3,GPIO.LOW)
-		GPIO.output(self.IN4,GPIO.HIGH)
+	def forward(self, t=1):
+		bTime = datetime.now()
+		while datetime.now() - bTime < t:
+			GPIO.output(self.IN1,GPIO.HIGH)
+			GPIO.output(self.IN2,GPIO.LOW)
+			GPIO.output(self.IN3,GPIO.LOW)
+			GPIO.output(self.IN4,GPIO.HIGH)
 
 	def stop(self):
 		GPIO.output(self.IN1,GPIO.LOW)
