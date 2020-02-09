@@ -21,34 +21,35 @@ def toggle_task_state(task):
         server.error("Error while trying to toggle task ({0}) state.".format(task))
     return "success"
 
+
 @app.route('/photo_shoot_ajax', methods=['GET'])
 def photo_shoot_ajax():
     server.controler.get_action(PossibleTasks.PA_SHOOT_PHOTO).start(server)
     return "success"
 
 
-@app.route('/read_proximity', methods=['GET'])
-def read_proximity():
-    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).start(server)
-    return "success"
+# @app.route('/read_proximity', methods=['GET'])
+# def read_proximity():
+#     server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).start(server)
+#     return "success"
+#
+#
+# @app.route('/stop_proximity', methods=['GET'])
+# def stop_reading_proximity():
+#     server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).stop(server)
+#     return "success"
 
 
-@app.route('/stop_proximity', methods=['GET'])
-def stop_reading_proximity():
-    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_PDS_STATUS).stop(server)
-    return "success"
-
-
-@app.route('/read_irrc', methods=['GET'])
-def read_irrc():
-    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).start(server)
-    return "success"
-
-
-@app.route('/stop_irrc', methods=['GET'])
-def stop_reading_irrc():
-    server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).stop(server)
-    return "success"
+# @app.route('/read_irrc', methods=['GET'])
+# def read_irrc():
+#     server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).start(server)
+#     return "success"
+#
+#
+# @app.route('/stop_irrc', methods=['GET'])
+# def stop_reading_irrc():
+#     server.controler.get_action(PossibleTasks.PA_READ_CONTINUOUSLY_IR_REMOTE_CONTROL).stop(server)
+#     return "success"
 
 
 @app.route('/get_server_state', methods=['GET'])

@@ -22,13 +22,13 @@
 }
     function toggle_read_task_in_cards(task)
     {
-            console.log(task)
+             console.log(task)
              toggle_task_state(task)
              if(document.getElementById("task-status-"+task).value==1)
                 document.getElementById("task-status-"+task).value = 0
              else
                 document.getElementById("task-status-"+task).value = 1
-                    console.log(document.getElementById("task-status-"+task).value)
+                console.log(document.getElementById("task-status-"+task).value)
              manage_buttons_in_cards( task)
     }
 

@@ -1,0 +1,10 @@
+    <div id="cam-streaming">
+
+            <img src="{{ url_for('video_feed') }}" class="mx-auto d-block"  alt="Card image cap">
+
+            <h5 class="text-sm-center mt-2 mb-1"></h5>
+            <div class="location text-sm-center"><i class="fa  fa-calendar"></i>{{server.latestPictureDateTime|datetime_filter}}</div>
+            <div class="location text-sm-center"><i class="fa  fa-clock-o"></i>{{server.latestPictureDateTime|datetime_filter('%H:%M:%S')}}</div>
+
+
+    </div>
