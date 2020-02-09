@@ -21,6 +21,8 @@ def direct_logging(message):
 def info(message):
     return ConsoleMessage(CONSOLEMESSAGE_TYPE_INFO, str(message))
 # coding: utf-8
+
+
 def warning(message):
     return ConsoleMessage(CONSOLEMESSAGE_TYPE_WARNING, str(message))
 
