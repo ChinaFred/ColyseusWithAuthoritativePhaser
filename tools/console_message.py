@@ -38,7 +38,9 @@ class ConsoleMessage:
         self.message = message
         self.type = t
         self.datetime = datetime.now()
-        direct_logging(self.message)
+        # TODO : mettre une config pour déterminer si l'output se fait aussi dans la console linux ou seulement
+        #  dans la console web
+        # direct_logging(self.message)
 
 
 
