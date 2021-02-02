@@ -1,6 +1,6 @@
 asgiref==3.2.3
 backcall==0.1.0
-bleach==3.1.0
+bleach==3.3.0
 cImage==2.0.2
 Click==7.0
 colorama==0.4.1
