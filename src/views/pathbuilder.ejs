@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>PathBuilder for phaser</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/phaser/phaser.min.js"></script>
+    <script src="/pathbuilder/pathbuilder.js"></script>
+    <style>
+        #game_div {
+            margin: auto;
+            background: #000;
+        }
+        
+        html body {
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var config = {
+            type: Phaser.CANVAS,
+            parent: 'phaser-example',
+            scene: {
+                preload: preload
+            },
+
+            width: 800,
+            height: 600
+        };
+
+        var game = new Phaser.Game(config);
+
+        function preload() {
+            this.load.plugin('PathBuilder', "/pathbuilder/PathBuilder.js", 'PathBuilder');
+            //or if using minified:
+            //this.load.plugin('PathBuilder.min', "<path-to-plugin>/PathBuilder.min.js",'PathBuilder');
+
+        }
+    </script>
+</body>
+
+</html>
