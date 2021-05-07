@@ -5,7 +5,7 @@ import express from  'express';
 require("./tools/consoleOutputs")
 import mongoose from 'mongoose';
 //import {InitPagesData} from "./logic/websiteContent/initWebSite"
-import {getPageInfo} from "./logic/websiteContent/pageContent"
+import {getPageInfo} from "./logic/websiteContent/siteContent"
 
 
 /**

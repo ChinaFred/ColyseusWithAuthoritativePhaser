@@ -1,4 +1,4 @@
-import {Page, DefinedTags, BlogArticle } from "./pageContent";
+import {Page, DefinedTags, BlogArticle } from "./siteContent";
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
